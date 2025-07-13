@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:smelting",
+	"category": "misc",
+	"cookingtime": 100,
+	"experience": 0,
+	"group": "iron_ingot",
+	"ingredient": {
+		"item": "metalica:lead_dust"
+	},
+	"result": "metalica:lead_ingot"
+}

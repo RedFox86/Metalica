@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"group": "aluminum_ingot",
+	"key": {
+		"#": {
+			"item": "metalica:aluminum_nugget"
+		}
+	},
+	"pattern": [
+		"###",
+		"###",
+		"###"
+	],
+	"result": {
+		"item": "metalica:aluminum_ingot"
+	},
+	"show_notification": true
+}

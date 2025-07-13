@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"group": "lead_block",
+	"key": {
+		"#": {
+			"item": "metalica:lead_ingot"
+		}
+	},
+	"pattern": [
+		"###",
+		"###",
+		"###"
+	],
+	"result": {
+		"item": "metalica:lead_block"
+	},
+	"show_notification": true
+}

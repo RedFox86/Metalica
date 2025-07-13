@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"group": "zinc_block",
+	"key": {
+		"#": {
+			"item": "metalica:zinc_ingot"
+		}
+	},
+	"pattern": [
+		"###",
+		"###",
+		"###"
+	],
+	"result": {
+		"item": "metalica:zinc_block"
+	},
+	"show_notification": true
+}

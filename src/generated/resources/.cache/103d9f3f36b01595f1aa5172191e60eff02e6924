@@ -1,0 +1,10 @@
+// 1.20.1	2025-05-03T11:43:08.4857519	Registries
+fb8cbd85a731fe3273ad6c3fc5e278b94fbfe9e3 data/metalica/forge/biome_modifier/add_aluminum_ore.json
+ff4e8854f83fd384f38f773f9f694725cbc4f8d0 data/metalica/forge/biome_modifier/add_lead_ore.json
+ae2b0ef59f1d93b3ec998740ac811ef402faaa31 data/metalica/forge/biome_modifier/add_zinc_ore.json
+9edb369b1d36acb664573ddf343b043b6814a916 data/metalica/worldgen/configured_feature/aluminum_ore.json
+90f7b0c2bc486a03739338f19f28b99d56314fbc data/metalica/worldgen/configured_feature/lead_ore.json
+45d56accb49638f15209f927d03d95f11d114fb5 data/metalica/worldgen/configured_feature/zinc_ore.json
+4dffb51cdd1cc689cf6d73b3c3aa997283bc509f data/metalica/worldgen/placed_feature/aluminum_ore_placed.json
+25da9b22e71d61e1059217dbeca0503c8fbdcad7 data/metalica/worldgen/placed_feature/lead_ore_placed.json
+70972b7ff6a67c8b25ced43efbae83fb7532c633 data/metalica/worldgen/placed_feature/zinc_ore_placed.json
