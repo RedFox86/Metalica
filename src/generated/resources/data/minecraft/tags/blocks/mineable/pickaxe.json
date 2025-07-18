@@ -1,0 +1,16 @@
+{
+  "values": [
+    "metalica:aluminum_block",
+    "metalica:raw_aluminum_block",
+    "metalica:aluminum_ore",
+    "metalica:deepslate_aluminum_ore",
+    "metalica:lead_block",
+    "metalica:raw_lead_block",
+    "metalica:lead_ore",
+    "metalica:deepslate_lead_ore",
+    "metalica:zinc_block",
+    "metalica:raw_zinc_block",
+    "metalica:zinc_ore",
+    "metalica:deepslate_zinc_ore"
+  ]
+}

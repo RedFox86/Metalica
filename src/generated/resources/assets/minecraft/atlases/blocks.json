@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:paletted_permutations",
+      "palette_key": "metalica:color/palette",
+      "permutations": {
+        "aluminum": "metalica:color/aluminum",
+        "lead": "metalica:color/lead",
+        "zinc": "metalica:color/zinc"
+      },
+      "textures": [
+        "metalica:item/ingot",
+        "metalica:item/nugget",
+        "metalica:item/dust",
+        "metalica:item/raw",
+        "metalica:block/ore",
+        "metalica:block/deepslate_ore",
+        "metalica:item/liquid",
+        "metalica:block/storage_block",
+        "metalica:block/raw_storage_block"
+      ]
+    }
+  ]
+}

@@ -13,37 +13,25 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.redfox.metalica.Metalica;
 import net.redfox.metalica.block.ModBlocks;
+import net.redfox.metalica.material.MetalMaterial;
 
 import java.util.List;
 
 public class ModConfiguredFeatures {
-  private static final int ALUMINUM_VEIN_SIZE = 4;
-  private static final int LEAD_VEIN_SIZE = 7;
-  private static final int ZINC_VEIN_SIZE = 3;
-
-  public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_ALUMINUM_KEY = registerKey("aluminum_ore");
-  public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_LEAD_KEY = registerKey("lead_ore");
-  public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_ZINC_KEY = registerKey("zinc_ore");
 
   public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
     RuleTest stoneReplacable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
     RuleTest deepslateReplacable = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
 
-    List<OreConfiguration.TargetBlockState> overworldAluminumOres = List.of(
-        OreConfiguration.target(stoneReplacable, ModBlocks.ALUMINUM_ORE.get().defaultBlockState()),
-        OreConfiguration.target(deepslateReplacable, ModBlocks.DEEPSLATE_ALUMINUM_ORE.get().defaultBlockState())
-    );
-    List<OreConfiguration.TargetBlockState> overworldLeadOres = List.of(
-        OreConfiguration.target(stoneReplacable, ModBlocks.LEAD_ORE.get().defaultBlockState()),
-        OreConfiguration.target(deepslateReplacable, ModBlocks.DEEPSLATE_LEAD_ORE.get().defaultBlockState())
-    );
-    List<OreConfiguration.TargetBlockState> overworldZincOres = List.of(
-        OreConfiguration.target(stoneReplacable, ModBlocks.ZINC_ORE.get().defaultBlockState()),
-        OreConfiguration.target(deepslateReplacable, ModBlocks.DEEPSLATE_ZINC_ORE.get().defaultBlockState())
-    );
-    register(context, OVERWORLD_ALUMINUM_KEY, Feature.ORE, new OreConfiguration(overworldAluminumOres, ALUMINUM_VEIN_SIZE));
-    register(context, OVERWORLD_LEAD_KEY, Feature.ORE, new OreConfiguration(overworldLeadOres, LEAD_VEIN_SIZE));
-    register(context, OVERWORLD_ZINC_KEY, Feature.ORE, new OreConfiguration(overworldZincOres, ZINC_VEIN_SIZE));
+    for (MetalMaterial material : MetalMaterial.getMaterials()) {
+      List<OreConfiguration.TargetBlockState> ores = List.of(
+          OreConfiguration.target(stoneReplacable, material.getStoneOre().get().defaultBlockState()),
+          OreConfiguration.target(deepslateReplacable, material.getDeepslateOre().get().defaultBlockState())
+      );
+      register(context, material.getWorldgenContext().getConfiguredFeatureResourceKey(), Feature.ORE, new OreConfiguration(
+          ores, material.getWorldgenContext().getVeinSize())
+      );
+    }
   }
 
   public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
