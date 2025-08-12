@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/aluminum_brass"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "metalica:aluminum_brass_nugget"
+  }
+}
