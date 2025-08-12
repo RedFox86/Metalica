@@ -21,6 +21,7 @@ public class ModPlacedFeatures {
     HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
+      if (!material.hasOre()) continue;
       register(context, material.getWorldgenContext().getPlacedFeatureResourceKey(), configuredFeatures.getOrThrow(material.getWorldgenContext().getConfiguredFeatureResourceKey()),
           ModOrePlacement.commonOrePlacement(material.getWorldgenContext().getVeinCount(), HeightRangePlacement.uniform(
               VerticalAnchor.absolute(material.getWorldgenContext().getMinY()),

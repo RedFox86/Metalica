@@ -23,6 +23,7 @@ public class ModBiomeModifiers {
     HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
 
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
+      if (!material.hasOre()) continue;
       context.register(material.getWorldgenContext().getBiomeResourceKey(), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
           biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
           HolderSet.direct(placedFeatures.getOrThrow(material.getWorldgenContext().getPlacedFeatureResourceKey())),

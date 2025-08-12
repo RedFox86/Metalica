@@ -12,7 +12,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.redfox.metalica.Metalica;
-import net.redfox.metalica.block.ModBlocks;
 import net.redfox.metalica.material.MetalMaterial;
 
 import java.util.List;
@@ -24,6 +23,7 @@ public class ModConfiguredFeatures {
     RuleTest deepslateReplacable = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
 
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
+      if (!material.hasOre()) continue;
       List<OreConfiguration.TargetBlockState> ores = List.of(
           OreConfiguration.target(stoneReplacable, material.getStoneOre().get().defaultBlockState()),
           OreConfiguration.target(deepslateReplacable, material.getDeepslateOre().get().defaultBlockState())
