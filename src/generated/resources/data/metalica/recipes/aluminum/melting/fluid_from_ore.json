@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "tag": "forge:ores/aluminum"
+  },
+  "result": {
+    "amount": 90,
+    "tag": "forge:molten_aluminum"
+  },
+  "temperature": 800,
+  "time": 60
+}

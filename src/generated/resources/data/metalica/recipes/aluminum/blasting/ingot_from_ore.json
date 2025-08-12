@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.25,
+  "ingredient": {
+    "tag": "forge:ores/aluminum"
+  },
+  "result": "metalica:aluminum_ingot"
+}

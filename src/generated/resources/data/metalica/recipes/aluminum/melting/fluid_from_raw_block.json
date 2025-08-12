@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "tag": "forge:raw_storage_blocks/aluminum"
+  },
+  "result": {
+    "amount": 810,
+    "tag": "forge:molten_aluminum"
+  },
+  "temperature": 800,
+  "time": 60
+}
