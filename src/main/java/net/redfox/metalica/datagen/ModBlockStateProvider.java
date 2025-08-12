@@ -18,6 +18,8 @@ public class ModBlockStateProvider extends MyBlockStateProvider {
   @Override
   protected void registerStatesAndModels() {
      for (MetalMaterial material :  MetalMaterial.getMaterials()) {
+       simpleBlock(material.getFluid().getBlock());
+
        blockWithItem(material.getName()+"_block", ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/storage_block_"+material.getName()));
        simpleBlockWithItem(material.getStorageBlock().get(), models().getExistingFile(modLoc(material.getName()+"_block")));
 
