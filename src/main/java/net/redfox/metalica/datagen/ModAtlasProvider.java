@@ -19,7 +19,6 @@ public class ModAtlasProvider extends SpriteSourceProvider {
       ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "item/dust"),
       ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "item/raw"),
       ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/ore"),
-      ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/deepslate_ore"),
       ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "item/liquid"),
       ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/storage_block"),
       ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/raw_storage_block")
