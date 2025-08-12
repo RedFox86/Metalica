@@ -5,6 +5,7 @@
       "palette_key": "metalica:color/palette",
       "permutations": {
         "aluminum": "metalica:color/aluminum",
+        "aluminum_brass": "metalica:color/aluminum_brass",
         "lead": "metalica:color/lead",
         "zinc": "metalica:color/zinc"
       },
