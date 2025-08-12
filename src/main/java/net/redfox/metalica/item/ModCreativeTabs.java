@@ -9,9 +9,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.redfox.metalica.Metalica;
-import net.redfox.metalica.block.ModBlocks;
 import net.redfox.metalica.material.MetalMaterial;
-import net.redfox.metalica.material.Metals;
 
 public class ModCreativeTabs {
   public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Metalica.MOD_ID);
@@ -27,6 +25,7 @@ public class ModCreativeTabs {
           pOutput.accept(material.getStorageBlock().get());
           pOutput.accept(material.getFluid().getBucket());
           if (!material.hasOre()) continue;
+          pOutput.accept(material.getRawStorageBlock().get());
           pOutput.accept(material.getRaw().get());
           pOutput.accept(material.getStoneOre().get());
           pOutput.accept(material.getDeepslateOre().get());
