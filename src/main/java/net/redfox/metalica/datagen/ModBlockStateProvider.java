@@ -21,7 +21,7 @@ public class ModBlockStateProvider extends MyBlockStateProvider {
        blockWithItem(material.getName()+"_block", ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/storage_block_"+material.getName()));
        simpleBlockWithItem(material.getStorageBlock().get(), models().getExistingFile(modLoc(material.getName()+"_block")));
 
-       if (!material.hasOre()) return;
+       if (!material.hasOre()) continue;
 
        blockWithItem("raw_"+material.getName()+"_block", ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, "block/raw_storage_block_"+material.getName()));
        simpleBlockWithItem(material.getRawStorageBlock().get(), models().getExistingFile(modLoc("raw_"+material.getName()+"_block")));
