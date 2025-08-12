@@ -35,5 +35,6 @@
   "item.metalica.raw_zinc": "Raw Zinc",
   "item.metalica.zinc_dust": "Zinc Dust",
   "item.metalica.zinc_ingot": "Zinc Ingot",
-  "item.metalica.zinc_nugget": "Zinc Nugget"
+  "item.metalica.zinc_nugget": "Zinc Nugget",
+  "material.metalica.aluminum": "Aluminum"
 }

@@ -15,14 +15,28 @@ import net.redfox.metalica.item.ModItems;
 import net.redfox.metalica.util.ModTags;
 import net.redfox.metalica.worldgen.WorldgenContext;
 import slimeknights.mantle.registration.object.FlowingFluidObject;
+import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
+import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MetalMaterial {
+  private static final String[] PRE_EXISTING_TINKERS_METALS = new String[]{
+      "aluminum", "amethyst_bronze", "ancient", "ancient_hide", "bamboo", "blazewood",
+      "blazing_bone", "blood", "bloodbone", "bone", "bronze", "cactus", "chain", "chorus",
+      "cinderslime", "clay", "cobalt", "constantan", "copper", "darkthread", "earthslime",
+      "electrum", "ender_pearl", "enderslime", "enderslime_vine", "fiery", "flint", "glass",
+      "gold", "hepatizon", "honey", "ice", "ichor", "ichorskin", "invar", "iron", "ironwood",
+      "knightmetal", "lead", "leather", "magma", "manyullyn", "nahuatl", "necronium",
+      "necrotic_bone", "obsidian", "osmium", "pewter", "phantom", "pig_iron",
+      "plated_slimewood", "platinum", "queens_slime", "rock", "rose_gold", "rotten_flesh",
+      "scorched_stone", "seared_stone", "silver", "skyslime", "skyslime_vine", "slimeskin",
+      "slimesteel", "slimewood", "steel", "steeleaf", "string", "treated_wood", "tungsten",
+      "twisting_vine", "venombone", "vine", "weeping_vine", "whitestone", "wood"
+  };
   private static final ArrayList<MetalMaterial> MATERIALS = new ArrayList<>();
+  //Pre-existing metal materials to remove
+  private static final ArrayList<String> TO_REMOVE = new ArrayList<>();
 
   private final String displayName;
   private final String name;
@@ -44,10 +58,14 @@ public class MetalMaterial {
   private final TagKey<Item> oreTag;
   private final TagKey<Item> rawTag;
   private final TagKey<Item> storageBlockTag;
+  private final TagKey<Item> rawStorageBlockTag;
   private final TagKey<Fluid> fluidTag;
   private final WorldgenContext worldgenContext;
+  private final TinkersMaterialBuilder tinkersMaterialBuilder;
 
-  private MetalMaterial(String displayName, String name, int color, TagKey<Block> oreMiningLevel, TagKey<Block> storageBlockMiningLevel, WorldgenContext worldgenContext) {
+  protected MetalMaterial(String displayName, String name, int color, TagKey<Block> oreMiningLevel,
+                          TagKey<Block> storageBlockMiningLevel, WorldgenContext worldgenContext,
+                          TinkersMaterialBuilder tinkersMaterialBuilder) {
     MATERIALS.add(this);
     this.displayName = displayName;
     this.name = name;
@@ -85,7 +103,18 @@ public class MetalMaterial {
     ingotTag = ModTags.Items.forgeTag("ingots/"+name);
     nuggetTag = ModTags.Items.forgeTag("nuggets/"+name);
     storageBlockTag = ModTags.Items.forgeTag("storage_blocks/"+name);
-    fluidTag = ModTags.Fluids.tag(name);
+    rawStorageBlockTag = ModTags.Items.forgeTag("raw_storage_blocks/"+name);
+    fluidTag = ModTags.Fluids.tag("molten_"+name);
+
+    this.tinkersMaterialBuilder = tinkersMaterialBuilder;
+
+    if (tinkersMaterialBuilder != null) {
+      for (String s : PRE_EXISTING_TINKERS_METALS) {
+        if (s.equals(name)) {
+          TO_REMOVE.add(name);
+        }
+      }
+    }
   }
 
   public String getDisplayName() {
@@ -168,6 +197,10 @@ public class MetalMaterial {
     return storageBlockTag;
   }
 
+  public TagKey<Item> getRawStorageBlockTag() {
+    return rawStorageBlockTag;
+  }
+
   public TagKey<Fluid> getFluidTag() {
     return fluidTag;
   }
@@ -176,12 +209,20 @@ public class MetalMaterial {
     return worldgenContext;
   }
 
+  public TinkersMaterialBuilder getTinkersMaterialBuilder() {
+    return tinkersMaterialBuilder;
+  }
+
   public boolean hasOre() {
     return worldgenContext != null;
   }
 
   public static ArrayList<MetalMaterial> getMaterials() {
     return MATERIALS;
+  }
+
+  public static ArrayList<String> getToRemove() {
+    return TO_REMOVE;
   }
 
   public static class Builder {
@@ -193,8 +234,10 @@ public class MetalMaterial {
     private TagKey<Block> oreMiningLevel;
     private TagKey<Block> storageBlockMiningLevel;
 
-    public Builder(String name, int color) {
-      this.displayName = name.substring(0, 1).toUpperCase()+name.substring(1);
+    private TinkersMaterialBuilder tinkersMaterialBuilder;
+
+    public Builder(String name, String displayName, int color) {
+      this.displayName = displayName;
       this.name = name;
       this.color = color;
 
@@ -214,8 +257,14 @@ public class MetalMaterial {
       return this;
     }
 
+    public Builder tinkers(TinkersMaterialBuilder tinkersMaterialBuilder) {
+      this.tinkersMaterialBuilder = tinkersMaterialBuilder;
+      return this;
+    }
+
     public MetalMaterial build() {
-      return new MetalMaterial(displayName, name, color, oreMiningLevel, storageBlockMiningLevel, worldgenContext);
+      return new MetalMaterial(displayName, name, color, oreMiningLevel, storageBlockMiningLevel,
+          worldgenContext, tinkersMaterialBuilder);
     }
   }
 }

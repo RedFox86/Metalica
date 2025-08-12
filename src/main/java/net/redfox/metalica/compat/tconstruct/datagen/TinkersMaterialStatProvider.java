@@ -1,0 +1,41 @@
+package net.redfox.metalica.compat.tconstruct.datagen;
+
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.redfox.metalica.Metalica;
+import net.redfox.metalica.compat.tconstruct.datagen.owned.MyAbstractMaterialStatsDataProvider;
+import net.redfox.metalica.material.MetalMaterial;
+import slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvider;
+import slimeknights.tconstruct.library.materials.definition.MaterialId;
+import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
+
+public class TinkersMaterialStatProvider extends MyAbstractMaterialStatsDataProvider {
+  public TinkersMaterialStatProvider(PackOutput packOutput, AbstractMaterialDataProvider materials) {
+    super(packOutput, materials);
+  }
+
+  /**
+   * Adds all relevant material stats
+   */
+  @Override
+  protected void addMaterialStats() {
+    System.out.println();
+    for (MetalMaterial material : MetalMaterial.getMaterials()) {
+      if (material.getTinkersMaterialBuilder() == null) continue;
+      for (IMaterialStats materialStats : material.getTinkersMaterialBuilder().getStatList()) {
+        super.addMaterialStats(
+            new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
+            materialStats
+            );
+      }
+    }
+  }
+
+  /**
+   * Gets a name for this provider, to use in logging.
+   */
+  @Override
+  public String getName() {
+    return "TConstruct Stats Provider";
+  }
+}

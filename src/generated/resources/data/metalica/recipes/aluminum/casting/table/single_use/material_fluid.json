@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:material_fluid",
+  "fluid": {
+    "amount": 90,
+    "fluid": "metalica:molten_aluminum"
+  },
+  "output": "metalica:aluminum",
+  "temperature": 1000
+}

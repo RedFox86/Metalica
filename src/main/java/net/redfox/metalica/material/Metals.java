@@ -1,23 +1,37 @@
 package net.redfox.metalica.material;
 
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.Tiers;
+import net.minecraftforge.fml.ModList;
 
 public class Metals {
   public static MetalMaterial aluminum;
   public static MetalMaterial lead;
   public static MetalMaterial zinc;
+  public static MetalMaterial aluminum_brass;
 
   public static void createMaterials() {
-    aluminum = new MetalMaterial.Builder("aluminum", 0x9ed2ff)
-        .ore(4, 12, -64, 80, BlockTags.NEEDS_STONE_TOOL)
-        .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
-        .build();
-    lead = new MetalMaterial.Builder("lead", 0x383f5e)
+    if (ModList.get().isLoaded("tconstruct")) {
+      aluminum = new MetalMaterial.Builder("aluminum", "Aluminum", 0xFF9ED2FF)
+          .ore(4, 12, -64, 80, BlockTags.NEEDS_STONE_TOOL)
+          .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
+          .tinkers(new TinkersMaterialBuilder(Tiers.IRON, 1000).head(100, 7.5f, 1.5f).modifier("tconstruct:reinforced"))
+          .build();
+    } else {
+      aluminum = new MetalMaterial.Builder("aluminum", "Aluminum", 0xFF9ED2FF)
+          .ore(4, 12, -64, 80, BlockTags.NEEDS_STONE_TOOL)
+          .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
+          .build();
+    }
+    lead = new MetalMaterial.Builder("lead", "Lead", 0xFF383F5E)
         .ore(7, 7, -32, 35, BlockTags.NEEDS_IRON_TOOL)
         .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
         .build();
-    zinc = new MetalMaterial.Builder("zinc", 0xfaf7bb)
+    zinc = new MetalMaterial.Builder("zinc", "Zinc", 0xFFfAF7BB)
         .ore(3, 16, -24, 60, BlockTags.NEEDS_STONE_TOOL)
+        .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
+        .build();
+    aluminum_brass = new MetalMaterial.Builder("aluminum_brass", "Aluminum Brass", 0xFFFFD966)
         .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
         .build();
   }

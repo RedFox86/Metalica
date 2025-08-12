@@ -1,0 +1,9 @@
+{
+  "condition": {
+    "type": "forge:false"
+  },
+  "craftable": false,
+  "hidden": true,
+  "sortOrder": 5,
+  "tier": 0
+}
