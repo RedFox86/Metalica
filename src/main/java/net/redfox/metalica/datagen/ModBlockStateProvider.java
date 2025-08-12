@@ -40,9 +40,9 @@ public class ModBlockStateProvider extends MyBlockStateProvider {
 
   public ModelFile layeredOreBlock(String name, String baseTexturePath, String overlayTexturePath) {
     // Define ResourceLocations for textures, handling vanilla vs. mod textures
-    ResourceLocation particleTexture = new ResourceLocation(baseTexturePath);
-    ResourceLocation sideTexture = new ResourceLocation(baseTexturePath);
-    ResourceLocation overlayTexture = new ResourceLocation(overlayTexturePath);
+    ResourceLocation particleTexture = ResourceLocation.parse(baseTexturePath);
+    ResourceLocation sideTexture = ResourceLocation.parse(baseTexturePath);
+    ResourceLocation overlayTexture = ResourceLocation.parse(overlayTexturePath);
 
     ModelFile model = models().getBuilder(name)
         .parent(models().getExistingFile(mcLoc("block/block")))
