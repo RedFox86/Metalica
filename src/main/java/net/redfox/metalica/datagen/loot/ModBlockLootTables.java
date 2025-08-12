@@ -20,8 +20,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
   protected void generate() {
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       this.dropSelf(material.getStorageBlock().get());
+      if (!material.hasOre()) continue;
       this.dropSelf(material.getRawStorageBlock().get());
-      if (!material.hasOre()) return;
       this.add(material.getStoneOre().get(), block -> createOreDrop(material.getStoneOre().get(), material.getRaw().get()));
       this.add(material.getDeepslateOre().get(), block -> createOreDrop(material.getDeepslateOre().get(), material.getRaw().get()));
     }
