@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "metalica:block/molten_lead_fluid"
+    }
+  }
+}

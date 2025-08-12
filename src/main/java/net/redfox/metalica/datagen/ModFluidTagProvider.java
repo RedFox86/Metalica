@@ -18,7 +18,7 @@ public class ModFluidTagProvider extends FluidTagsProvider {
   @Override
   protected void addTags(HolderLookup.Provider pProvider) {
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
-      tag(material.getFluidTag()).add(material.getFluid().get());
+      tag(material.getFluidTag()).add(material.getFluid().get(), material.getFluid().getFlowing());
     }
   }
 }
