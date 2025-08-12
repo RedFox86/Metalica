@@ -1,7 +1,7 @@
 {
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "forge:raw_storage_blocks/aluminum"
+    "tag": "forge:storage_blocks/aluminum"
   },
   "result": {
     "amount": 810,

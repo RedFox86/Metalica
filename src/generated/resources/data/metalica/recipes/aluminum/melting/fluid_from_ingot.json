@@ -1,10 +1,10 @@
 {
   "type": "tconstruct:melting",
   "ingredient": {
-    "tag": "forge:raw_storage_blocks/aluminum"
+    "tag": "forge:ingots/aluminum"
   },
   "result": {
-    "amount": 810,
+    "amount": 90,
     "fluid": "metalica:molten_aluminum"
   },
   "temperature": 800,

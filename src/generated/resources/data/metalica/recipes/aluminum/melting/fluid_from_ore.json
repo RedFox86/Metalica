@@ -5,7 +5,7 @@
   },
   "result": {
     "amount": 90,
-    "tag": "forge:molten_aluminum"
+    "fluid": "metalica:molten_aluminum"
   },
   "temperature": 800,
   "time": 60

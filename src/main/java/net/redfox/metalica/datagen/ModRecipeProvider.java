@@ -57,14 +57,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
       if (material.getTinkersMaterialBuilder() != null) {
 
-//        MeltingRecipeBuilder.melting(Ingredient.of(material.getIngotTag()), material.getFluid(), 90, 1f).
-//            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ingot"));
-//        MeltingRecipeBuilder.melting(Ingredient.of(material.getDustTag()), material.getFluid(), 90, 1f).
-//            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_dust"));
-//        MeltingRecipeBuilder.melting(Ingredient.of(material.getNuggetTag()), material.getFluid(), 10, 1f).
-//            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_nugget"));
-//        MeltingRecipeBuilder.melting(Ingredient.of(material.getStorageBlockTag()), material.getFluid(), 810, 1f).
-//            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_block"));
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getIngotTag()), material.getFluid().get(), 90, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ingot"));
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getDustTag()), material.getFluid().get(), 90, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_dust"));
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getNuggetTag()), material.getFluid().get(), 10, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_nugget"));
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getStorageBlockTag()), material.getFluid().get(), 810, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_block"));
 
         //Storage Block
         ItemCastingRecipeBuilder.basinRecipe(material.getStorageBlockTag()).setFluid(material.getFluidTag(), 810).setCoolingTime(180).
@@ -87,7 +87,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_item"));
 
         MaterialFluidRecipeBuilder.material(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())))
-            .setFluid(FluidIngredient.of(material.getFluid().get(), 90))
+            .setFluid(FluidIngredient.of(material.getFluidTag(), 90))
             .setTemperature(material.getTinkersMaterialBuilder().getTemperature())
             .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_fluid"));
 
@@ -97,11 +97,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_melting"));
 
         if (material.hasOre()) {
-          MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid(), 90, 1f).
+          MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid().get(), 90, 1f).
               save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw"));
-          MeltingRecipeBuilder.melting(Ingredient.of(material.getRawStorageBlockTag()), material.getFluid(), 810, 1f).
+          MeltingRecipeBuilder.melting(Ingredient.of(material.getRawStorageBlockTag()), material.getFluid().get(), 810, 1f).
               save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw_block"));
-          MeltingRecipeBuilder.melting(Ingredient.of(material.getOreTag()), material.getFluid(), 90, 1f).
+          MeltingRecipeBuilder.melting(Ingredient.of(material.getOreTag()), material.getFluid().get(), 90, 1f).
               save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ore"));
         }
       } if (material.hasOre()) {
