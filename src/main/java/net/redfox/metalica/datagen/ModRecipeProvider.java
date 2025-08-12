@@ -93,8 +93,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         MaterialMeltingRecipeBuilder.material(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
             material.getTinkersMaterialBuilder().getTemperature(),
-            new FluidStack(material.getFluid().get(), 90)
-        );
+            new FluidStack(material.getFluid().get(), 90))
+            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_melting"));
 
         if (material.hasOre()) {
           MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid(), 90, 1f).
