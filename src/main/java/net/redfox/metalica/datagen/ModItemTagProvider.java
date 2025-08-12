@@ -27,6 +27,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
       if (!material.hasOre()) continue;
       this.tag(material.getOreTag()).add(material.getStoneOre().get().asItem(), material.getDeepslateOre().get().asItem());
       this.tag(material.getRawTag()).add(material.getRaw().get());
+      this.tag(material.getRawStorageBlockTag()).add(material.getRawStorageBlock().get().asItem());
     }
   }
 }
