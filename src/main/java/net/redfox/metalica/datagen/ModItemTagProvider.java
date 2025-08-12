@@ -26,7 +26,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
       this.tag(material.getIngotTag()).add(material.getIngot().get());
       this.tag(material.getNuggetTag()).add(material.getNugget().get());
       this.tag(material.getStorageBlockTag()).add(material.getStorageBlock().get().asItem());
-      if (!material.hasOre()) return;
+      if (!material.hasOre()) continue;
       this.tag(material.getOreTag()).add(material.getStoneOre().get().asItem(), material.getDeepslateOre().get().asItem());
       this.tag(material.getRawTag()).add(material.getRaw().get());
     }
