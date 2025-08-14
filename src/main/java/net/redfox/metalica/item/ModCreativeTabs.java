@@ -6,6 +6,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.redfox.metalica.Metalica;
@@ -23,7 +24,7 @@ public class ModCreativeTabs {
           pOutput.accept(material.getNugget().get());
           pOutput.accept(material.getDust().get());
           pOutput.accept(material.getStorageBlock().get());
-          pOutput.accept(material.getFluid().getBucket());
+          if (ModList.get().isLoaded("mantle")) pOutput.accept(material.getFluid().getBucket());
           if (!material.hasOre()) continue;
           pOutput.accept(material.getRawStorageBlock().get());
           pOutput.accept(material.getRaw().get());
