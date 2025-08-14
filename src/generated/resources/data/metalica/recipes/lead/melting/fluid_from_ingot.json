@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "tag": "forge:ingots/lead"
+  },
+  "result": {
+    "amount": 90,
+    "fluid": "metalica:molten_lead"
+  },
+  "temperature": 800,
+  "time": 60
+}

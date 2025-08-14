@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:material_melting",
+  "input": "metalica:lead",
+  "result": {
+    "amount": 90,
+    "fluid": "metalica:molten_lead"
+  },
+  "temperature": 1000
+}

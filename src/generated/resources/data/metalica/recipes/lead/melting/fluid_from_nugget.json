@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "tag": "forge:nuggets/lead"
+  },
+  "result": {
+    "amount": 10,
+    "fluid": "metalica:molten_lead"
+  },
+  "temperature": 800,
+  "time": 60
+}
