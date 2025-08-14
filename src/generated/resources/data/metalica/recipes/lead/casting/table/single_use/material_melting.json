@@ -1,9 +1,22 @@
 {
-  "type": "tconstruct:material_melting",
-  "input": "metalica:lead",
-  "result": {
-    "amount": 90,
-    "fluid": "metalica:molten_lead"
-  },
-  "temperature": 1000
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:material_melting",
+        "input": "metalica:lead",
+        "result": {
+          "amount": 90,
+          "fluid": "metalica:molten_lead"
+        },
+        "temperature": 1000
+      }
+    }
+  ]
 }

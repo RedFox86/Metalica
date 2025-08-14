@@ -1,12 +1,25 @@
 {
-  "type": "tconstruct:melting",
-  "ingredient": {
-    "tag": "forge:raw_storage_blocks/aluminum"
-  },
-  "result": {
-    "amount": 810,
-    "fluid": "metalica:molten_aluminum"
-  },
-  "temperature": 800,
-  "time": 60
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:melting",
+        "ingredient": {
+          "tag": "forge:raw_storage_blocks/aluminum"
+        },
+        "result": {
+          "amount": 810,
+          "fluid": "metalica:molten_aluminum"
+        },
+        "temperature": 800,
+        "time": 60
+      }
+    }
+  ]
 }

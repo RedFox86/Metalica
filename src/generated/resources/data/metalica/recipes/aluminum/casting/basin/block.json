@@ -1,11 +1,24 @@
 {
-  "type": "tconstruct:casting_basin",
-  "cooling_time": 180,
-  "fluid": {
-    "amount": 810,
-    "tag": "forge:molten_aluminum"
-  },
-  "result": {
-    "tag": "forge:storage_blocks/aluminum"
-  }
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:casting_basin",
+        "cooling_time": 180,
+        "fluid": {
+          "amount": 810,
+          "tag": "forge:molten_aluminum"
+        },
+        "result": {
+          "tag": "forge:storage_blocks/aluminum"
+        }
+      }
+    }
+  ]
 }

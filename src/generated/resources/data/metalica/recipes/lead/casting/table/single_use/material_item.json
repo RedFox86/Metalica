@@ -1,9 +1,22 @@
 {
-  "type": "tconstruct:material",
-  "ingredient": {
-    "tag": "forge:ingots/lead"
-  },
-  "material": "metalica:lead",
-  "needed": 1,
-  "value": 1
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:material",
+        "ingredient": {
+          "tag": "forge:ingots/lead"
+        },
+        "material": "metalica:lead",
+        "needed": 1,
+        "value": 1
+      }
+    }
+  ]
 }

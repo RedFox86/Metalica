@@ -1,9 +1,22 @@
 {
-  "type": "tconstruct:material_fluid",
-  "fluid": {
-    "amount": 90,
-    "tag": "forge:molten_aluminum"
-  },
-  "output": "metalica:aluminum",
-  "temperature": 1000
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:material_fluid",
+        "fluid": {
+          "amount": 90,
+          "tag": "forge:molten_aluminum"
+        },
+        "output": "metalica:aluminum",
+        "temperature": 1000
+      }
+    }
+  ]
 }
