@@ -18,14 +18,12 @@ public class TinkersMaterialDefinitionProvider extends slimeknights.tconstruct.l
   protected void addMaterials() {
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       if (material.getTinkersMaterialBuilder() == null) continue;
-      if (material.getTinkersMaterialBuilder().getHeadStats() != null) {
-        addMaterial(
-            new slimeknights.tconstruct.library.materials.definition.MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
-            material.getTinkersMaterialBuilder().getTier().getLevel(),
-            slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvider.ORDER_COMPAT,
-            false
-        );
-      }
+      addMaterial(
+          new slimeknights.tconstruct.library.materials.definition.MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
+          material.getTinkersMaterialBuilder().getTier().getLevel(),
+          slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvider.ORDER_COMPAT,
+          false
+      );
     }
 
     //Remove pre-existing Tinker's materials
