@@ -18,6 +18,11 @@ public class TinkersMaterialBuilder {
   private PlatingMaterialStats shieldStats;
   private GripMaterialStats gripStats;
   private LimbMaterialStats limbStats;
+  private StatlessMaterialStats binding;
+  private StatlessMaterialStats bowstring;
+  private StatlessMaterialStats maille;
+  private StatlessMaterialStats shieldCore;
+  private StatlessMaterialStats repairKit;
   private String modifier;
   private final Tier tier;
   private final int temperature;
@@ -38,7 +43,7 @@ public class TinkersMaterialBuilder {
     return this;
   }
 
-  public TinkersMaterialBuilder handle(int durability, float miningSpeed, float meleeSpeed, float attackDamage) {
+  public TinkersMaterialBuilder handle(float durability, float miningSpeed, float meleeSpeed, float attackDamage) {
     this.handleStats = new HandleMaterialStats(durability, miningSpeed, meleeSpeed, attackDamage);
     statList.add(handleStats);
     return this;
@@ -70,7 +75,7 @@ public class TinkersMaterialBuilder {
     return this;
   }
 
-  public TinkersMaterialBuilder grip(int durability, float accuracy, float meleeDamage) {
+  public TinkersMaterialBuilder grip(float durability, float accuracy, float meleeDamage) {
     this.gripStats = new GripMaterialStats(durability, accuracy, meleeDamage);
     statList.add(gripStats);
     return this;
@@ -82,40 +87,34 @@ public class TinkersMaterialBuilder {
     return this;
   }
 
-  public HeadMaterialStats getHeadStats() {
-    return headStats;
+  public TinkersMaterialBuilder binding() {
+    this.binding = StatlessMaterialStats.BINDING;
+    statList.add(binding);
+    return this;
   }
 
-  public HandleMaterialStats getHandleStats() {
-    return handleStats;
+  public TinkersMaterialBuilder bowstring() {
+    this.bowstring = StatlessMaterialStats.BOWSTRING;
+    statList.add(bowstring);
+    return this;
   }
 
-  public PlatingMaterialStats getHelmetStats() {
-    return helmetStats;
+  public TinkersMaterialBuilder maille() {
+    this.maille = StatlessMaterialStats.MAILLE;
+    statList.add(maille);
+    return this;
   }
 
-  public PlatingMaterialStats getChestplateStats() {
-    return chestplateStats;
+  public TinkersMaterialBuilder sheildCore() {
+    this.shieldCore = StatlessMaterialStats.SHIELD_CORE;
+    statList.add(shieldCore);
+    return this;
   }
 
-  public PlatingMaterialStats getLeggingsStats() {
-    return leggingsStats;
-  }
-
-  public PlatingMaterialStats getBootsStats() {
-    return bootsStats;
-  }
-
-  public PlatingMaterialStats getShieldStats() {
-    return shieldStats;
-  }
-
-  public GripMaterialStats getGripStats() {
-    return gripStats;
-  }
-
-  public LimbMaterialStats getLimbStats() {
-    return limbStats;
+  public TinkersMaterialBuilder repairKit() {
+    this.repairKit = StatlessMaterialStats.REPAIR_KIT;
+    statList.add(repairKit);
+    return this;
   }
 
   public Tier getTier() {
