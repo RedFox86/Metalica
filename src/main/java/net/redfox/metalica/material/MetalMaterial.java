@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.RegistryObject;
 import net.redfox.metalica.block.ModBlocks;
 import net.redfox.metalica.fluid.ModFluids;
@@ -94,7 +95,6 @@ public class MetalMaterial {
     ingot = ModItems.ITEMS.register(name+"_ingot", () -> new Item(new Item.Properties()));
     nugget = ModItems.ITEMS.register(name+"_nugget", () -> new Item(new Item.Properties()));
     dust = ModItems.ITEMS.register(name+"_dust", () -> new Item(new Item.Properties()));
-    fluid = ModFluids.createMoltenFluid("molten_"+name);
 
     this.oreMiningLevel = oreMiningLevel;
     this.storageBlockMiningLevel = storageBlockMiningLevel;
@@ -104,7 +104,14 @@ public class MetalMaterial {
     nuggetTag = ModTags.Items.forgeTag("nuggets/"+name);
     storageBlockTag = ModTags.Items.forgeTag("storage_blocks/"+name);
     rawStorageBlockTag = ModTags.Items.forgeTag("raw_storage_blocks/"+name);
-    fluidTag = ModTags.Fluids.tag("molten_"+name);
+
+    if (ModList.get().isLoaded("mantle")) {
+      fluid = ModFluids.createMoltenFluid("molten_"+name);
+      fluidTag = ModTags.Fluids.tag("molten_"+name);
+    } else {
+      fluid = null;
+      fluidTag = null;
+    }
 
     this.tinkersMaterialBuilder = tinkersMaterialBuilder;
 
