@@ -9,27 +9,20 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
 import net.redfox.metalica.Metalica;
 import net.redfox.metalica.material.MetalMaterial;
 import net.redfox.metalica.util.ModTags;
-import slimeknights.mantle.recipe.helper.ItemOutput;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
-import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
-import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialFluidRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipeBuilder;
-import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipeBuilder;
-import slimeknights.tconstruct.tools.data.ToolsRecipeProvider;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
@@ -40,7 +33,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
   @Override
   protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
-
       compactingRecipe(pWriter, material.getIngotTag(), material.getIngot().get(), material.getStorageBlock().get(),
           ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/crafting/block_from_ingot"));
       unCompactingRecipe(pWriter, material.getStorageBlockTag(), material.getStorageBlock().get(), material.getIngot().get(),
@@ -55,55 +47,85 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
       oreBlasting(pWriter, material.getDustTag(), material.getDust().get(), material.getIngot().get(), 0, 200,
           ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/blasting/ingot_from_dust"));
 
-      MeltingRecipeBuilder.melting(Ingredient.of(material.getIngotTag()), material.getFluid().get(), 90, 1f).
-          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ingot"));
-      MeltingRecipeBuilder.melting(Ingredient.of(material.getDustTag()), material.getFluid().get(), 90, 1f).
-          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_dust"));
-      MeltingRecipeBuilder.melting(Ingredient.of(material.getNuggetTag()), material.getFluid().get(), 10, 1f).
-          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_nugget"));
-      MeltingRecipeBuilder.melting(Ingredient.of(material.getStorageBlockTag()), material.getFluid().get(), 810, 1f).
-          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_block"));
+      //Melting items into fluids
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              MeltingRecipeBuilder.melting(Ingredient.of(material.getIngotTag()), material.getFluid().get(), 90, 1f).save(conditionalConsumer),
+          material.getName()+"/melting/fluid_from_ingot"
+      );
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              MeltingRecipeBuilder.melting(Ingredient.of(material.getDustTag()), material.getFluid().get(), 90, 1f).save(conditionalConsumer),
+          material.getName()+"/melting/fluid_from_dust"
+      );
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              MeltingRecipeBuilder.melting(Ingredient.of(material.getNuggetTag()), material.getFluid().get(), 10, 1f).save(conditionalConsumer),
+          material.getName()+"/melting/fluid_from_nugget"
+      );
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              MeltingRecipeBuilder.melting(Ingredient.of(material.getStorageBlockTag()), material.getFluid().get(), 810, 1f).save(conditionalConsumer),
+          material.getName()+"/melting/fluid_from_block"
+      );
 
       //Storage Block
-      ItemCastingRecipeBuilder.basinRecipe(material.getStorageBlockTag()).setFluid(material.getFluidTag(), 810).setCoolingTime(180).
-          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/basin/block"));
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              ItemCastingRecipeBuilder.basinRecipe(material.getStorageBlockTag()).setFluid(material.getFluidTag(), 810).setCoolingTime(180).save(conditionalConsumer),
+          material.getName()+"/casting/basin/block"
+      );
 
       //Ingot
-      ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.REUSABLE_INGOT_CAST_TAG, false)
-          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/reusable/ingot"));
-      ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.SINGLE_USE_INGOT_CAST_TAG, true)
-          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/ingot"));
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.REUSABLE_INGOT_CAST_TAG, false).save(conditionalConsumer),
+          material.getName()+"/casting/table/reusable/ingot"
+      );
+
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.SINGLE_USE_INGOT_CAST_TAG, true).save(conditionalConsumer),
+          material.getName()+"/casting/table/single_use/ingot"
+      );
 
       //Nugget
-      ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.REUSABLE_NUGGET_CAST_TAG, false)
-          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/reusable/nugget"));
-      ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.SINGLE_USE_NUGGET_CAST_TAG, true)
-          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/nugget"));
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+          ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.REUSABLE_NUGGET_CAST_TAG, false).save(conditionalConsumer),
+          material.getName()+"/casting/table/reusable/nugget"
+      );
+      conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+              ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.SINGLE_USE_NUGGET_CAST_TAG, true).save(conditionalConsumer),
+          material.getName()+"/casting/table/single_use/nugget"
+      );
 
       if (material.getTinkersMaterialBuilder() != null) {
+        conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+            MaterialRecipeBuilder.materialRecipe(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())))
+                .setIngredient(material.getIngotTag()).save(conditionalConsumer), material.getName()+"/casting/table/single_use/material_item"
+        );
 
+        conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+            MaterialFluidRecipeBuilder.material(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())))
+                .setFluid(FluidIngredient.of(material.getFluidTag(), 90))
+                .setTemperature(material.getTinkersMaterialBuilder().getTemperature()).save(conditionalConsumer), material.getName()+"/casting/table/single_use/material_fluid"
+        );
 
-
-        MaterialRecipeBuilder.materialRecipe(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())))
-            .setIngredient(material.getIngotTag())
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_item"));
-
-        MaterialFluidRecipeBuilder.material(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())))
-            .setFluid(FluidIngredient.of(material.getFluidTag(), 90))
-            .setTemperature(material.getTinkersMaterialBuilder().getTemperature())
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_fluid"));
-
-        MaterialMeltingRecipeBuilder.material(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
+        conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+            MaterialMeltingRecipeBuilder.material(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
             material.getTinkersMaterialBuilder().getTemperature(),
-            new FluidStack(material.getFluid().get(), 90))
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_melting"));
+            new FluidStack(material.getFluid().get(), 90)).save(conditionalConsumer), material.getName()+"/casting/table/single_use/material_melting"
+        );
+
       } if (material.hasOre()) {
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid().get(), 90, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw"));
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getRawStorageBlockTag()), material.getFluid().get(), 810, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw_block"));
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getOreTag()), material.getFluid().get(), 90, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ore"));
+
+        conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+                MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid().get(), 90, 1f).save(conditionalConsumer),
+            material.getName()+"/melting/fluid_from_raw"
+        );
+
+        conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+                MeltingRecipeBuilder.melting(Ingredient.of(material.getRawStorageBlockTag()), material.getFluid().get(), 810, 1f).save(conditionalConsumer),
+            material.getName()+"/melting/fluid_from_raw_block"
+        );
+
+        conditionalTinkersRecipe(pWriter, conditionalConsumer ->
+                MeltingRecipeBuilder.melting(Ingredient.of(material.getOreTag()), material.getFluid().get(), 90, 1f).save(conditionalConsumer),
+            material.getName()+"/melting/fluid_from_ore"
+        );
 
         oreSmelting(pWriter, material.getRawTag(), material.getRaw().get(), material.getIngot().get(), 0.25f, 200,
             ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/smelting/ingot_from_raw"));
@@ -144,5 +166,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, unpacked, 9)
         .requires(packedTag).unlockedBy(getHasName(packed), has(packed))
         .save(finishedRecipeConsumer, savePath);
+  }
+
+  private void conditionalTinkersRecipe(Consumer<FinishedRecipe> pWriter, Consumer<Consumer<FinishedRecipe>> conditionalConsumer, String path) {
+    ConditionalRecipe.builder().addCondition(modLoaded("tconstruct"))
+        .addRecipe(conditionalConsumer)
+        .build(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, path));
   }
 }
