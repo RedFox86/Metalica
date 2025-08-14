@@ -19,14 +19,13 @@ public class TinkersMaterialStatProvider extends MyAbstractMaterialStatsDataProv
    */
   @Override
   protected void addMaterialStats() {
-    System.out.println();
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       if (material.getTinkersMaterialBuilder() == null) continue;
       for (IMaterialStats materialStats : material.getTinkersMaterialBuilder().getStatList()) {
         super.addMaterialStats(
             new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
             materialStats
-            );
+        );
       }
     }
   }
