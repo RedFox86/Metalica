@@ -16,6 +16,10 @@ public class ModLanguageProvider extends LanguageProvider {
   protected void addTranslations() {
     add("creativetab."+Metalica.MOD_ID+".metalica_tab", "Metalica");
 
+    add("modifier."+Metalica.MOD_ID+".malleable", "Malleable");
+    add("modifier."+Metalica.MOD_ID+".malleable.flavor", "Bendy!");
+    add("modifier."+Metalica.MOD_ID+".malleable.description", "Tool is much easier to repair!");
+
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       add("block."+Metalica.MOD_ID+"."+material.getName()+"_block", material.getDisplayName()+" Block");
       add("item."+Metalica.MOD_ID+"."+material.getName()+"_ingot", material.getDisplayName()+" Ingot");

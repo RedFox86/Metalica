@@ -37,5 +37,8 @@
   "item.metalica.zinc_ingot": "Zinc Ingot",
   "item.metalica.zinc_nugget": "Zinc Nugget",
   "material.metalica.aluminum": "Aluminum",
-  "material.metalica.lead": "Lead"
+  "material.metalica.lead": "Lead",
+  "modifier.metalica.malleable": "Malleable",
+  "modifier.metalica.malleable.description": "Tool is much easier to repair!",
+  "modifier.metalica.malleable.flavor": "Bendy!"
 }
