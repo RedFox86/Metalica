@@ -55,32 +55,34 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
       oreBlasting(pWriter, material.getDustTag(), material.getDust().get(), material.getIngot().get(), 0, 200,
           ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/blasting/ingot_from_dust"));
 
+      MeltingRecipeBuilder.melting(Ingredient.of(material.getIngotTag()), material.getFluid().get(), 90, 1f).
+          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ingot"));
+      MeltingRecipeBuilder.melting(Ingredient.of(material.getDustTag()), material.getFluid().get(), 90, 1f).
+          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_dust"));
+      MeltingRecipeBuilder.melting(Ingredient.of(material.getNuggetTag()), material.getFluid().get(), 10, 1f).
+          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_nugget"));
+      MeltingRecipeBuilder.melting(Ingredient.of(material.getStorageBlockTag()), material.getFluid().get(), 810, 1f).
+          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_block"));
+
+      //Storage Block
+      ItemCastingRecipeBuilder.basinRecipe(material.getStorageBlockTag()).setFluid(material.getFluidTag(), 810).setCoolingTime(180).
+          save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/basin/block"));
+
+      //Ingot
+      ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.REUSABLE_INGOT_CAST_TAG, false)
+          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/reusable/ingot"));
+      ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.SINGLE_USE_INGOT_CAST_TAG, true)
+          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/ingot"));
+
+      //Nugget
+      ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.REUSABLE_NUGGET_CAST_TAG, false)
+          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/reusable/nugget"));
+      ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.SINGLE_USE_NUGGET_CAST_TAG, true)
+          .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/nugget"));
+
       if (material.getTinkersMaterialBuilder() != null) {
 
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getIngotTag()), material.getFluid().get(), 90, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ingot"));
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getDustTag()), material.getFluid().get(), 90, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_dust"));
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getNuggetTag()), material.getFluid().get(), 10, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_nugget"));
-        MeltingRecipeBuilder.melting(Ingredient.of(material.getStorageBlockTag()), material.getFluid().get(), 810, 1f).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_block"));
 
-        //Storage Block
-        ItemCastingRecipeBuilder.basinRecipe(material.getStorageBlockTag()).setFluid(material.getFluidTag(), 810).setCoolingTime(180).
-            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/basin/block"));
-
-        //Ingot
-        ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.REUSABLE_INGOT_CAST_TAG, false)
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/reusable/ingot"));
-        ItemCastingRecipeBuilder.tableRecipe(material.getIngotTag()).setFluid(material.getFluidTag(), 90).setCoolingTime(60).setCast(ModTags.Items.SINGLE_USE_INGOT_CAST_TAG, true)
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/ingot"));
-
-        //Nugget
-        ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.REUSABLE_NUGGET_CAST_TAG, false)
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/reusable/nugget"));
-        ItemCastingRecipeBuilder.tableRecipe(material.getNuggetTag()).setFluid(material.getFluidTag(), 10).setCoolingTime(20).setCast(ModTags.Items.SINGLE_USE_NUGGET_CAST_TAG, true)
-            .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/nugget"));
 
         MaterialRecipeBuilder.materialRecipe(new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())))
             .setIngredient(material.getIngotTag())
@@ -95,16 +97,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             material.getTinkersMaterialBuilder().getTemperature(),
             new FluidStack(material.getFluid().get(), 90))
             .save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/casting/table/single_use/material_melting"));
-
-        if (material.hasOre()) {
-          MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid().get(), 90, 1f).
-              save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw"));
-          MeltingRecipeBuilder.melting(Ingredient.of(material.getRawStorageBlockTag()), material.getFluid().get(), 810, 1f).
-              save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw_block"));
-          MeltingRecipeBuilder.melting(Ingredient.of(material.getOreTag()), material.getFluid().get(), 90, 1f).
-              save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ore"));
-        }
       } if (material.hasOre()) {
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getRawTag()), material.getFluid().get(), 90, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw"));
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getRawStorageBlockTag()), material.getFluid().get(), 810, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_raw_block"));
+        MeltingRecipeBuilder.melting(Ingredient.of(material.getOreTag()), material.getFluid().get(), 90, 1f).
+            save(pWriter, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/melting/fluid_from_ore"));
+
         oreSmelting(pWriter, material.getRawTag(), material.getRaw().get(), material.getIngot().get(), 0.25f, 200,
             ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName()+"/smelting/ingot_from_raw"));
         oreBlasting(pWriter, material.getRawTag(), material.getRaw().get(), material.getIngot().get(), 0.25f, 200,

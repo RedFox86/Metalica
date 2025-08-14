@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "tag": "forge:dusts/zinc"
+  },
+  "result": {
+    "amount": 90,
+    "fluid": "metalica:molten_zinc"
+  },
+  "temperature": 800,
+  "time": 60
+}

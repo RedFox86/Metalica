@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "tag": "forge:raw_storage_blocks/zinc"
+  },
+  "result": {
+    "amount": 810,
+    "fluid": "metalica:molten_zinc"
+  },
+  "temperature": 800,
+  "time": 60
+}
