@@ -1,5 +1,7 @@
+/* (C)2025 */
 package net.redfox.metalica.datagen;
 
+import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -9,11 +11,12 @@ import net.redfox.metalica.Metalica;
 import net.redfox.metalica.material.MetalMaterial;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.CompletableFuture;
-
 public class ModBlockTagProvider extends BlockTagsProvider {
 
-  public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
+  public ModBlockTagProvider(
+      PackOutput output,
+      CompletableFuture<HolderLookup.Provider> lookupProvider,
+      @Nullable ExistingFileHelper existingFileHelper) {
     super(output, lookupProvider, Metalica.MOD_ID, existingFileHelper);
   }
 
@@ -26,8 +29,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
       if (!material.hasOre()) continue;
       this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(material.getRawStorageBlock().get());
       this.tag(material.getStorageBlockMiningLevel()).add(material.getRawStorageBlock().get());
-      this.tag(material.getOreMiningLevel()).add(material.getStoneOre().get(), material.getDeepslateOre().get());
-      this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(material.getStoneOre().get(), material.getDeepslateOre().get());
+      this.tag(material.getOreMiningLevel())
+          .add(material.getStoneOre().get(), material.getDeepslateOre().get());
+      this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+          .add(material.getStoneOre().get(), material.getDeepslateOre().get());
     }
   }
 }

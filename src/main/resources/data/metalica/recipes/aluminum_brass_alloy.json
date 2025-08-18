@@ -1,31 +1,31 @@
 {
-	"type": "forge:conditional",
-	"recipes": [
-		{
-			"conditions": [
-				{
-					"type": "forge:mod_loaded",
-					"modid": "tconstruct"
-				}
-			],
-			"recipe": {
-				"type": "tconstruct:alloy",
-				"inputs": [
-					{
-						"amount": 90,
-						"tag": "forge:molten_brass"
-					},
-					{
-						"amount": 90,
-						"tag": "forge:molten_aluminum"
-					}
-				],
-				"result": {
-					"amount": 180,
-					"tag": "forge:molten_aluminum_brass"
-				},
-				"temperature": 600
-			}
-		}
-	]
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:alloy",
+        "inputs": [
+          {
+            "amount": 90,
+            "tag": "forge:molten_brass"
+          },
+          {
+            "amount": 90,
+            "tag": "forge:molten_aluminum"
+          }
+        ],
+        "result": {
+          "amount": 180,
+          "tag": "forge:molten_aluminum_brass"
+        },
+        "temperature": 600
+      }
+    }
+  ]
 }

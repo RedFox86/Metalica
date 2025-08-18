@@ -1,5 +1,12 @@
+/* (C)2025 */
 package net.redfox.metalica.datagen.models;
 
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.mojang.math.Transformation;
+import com.mojang.serialization.JsonOps;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -9,19 +16,11 @@ import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.mojang.math.Transformation;
-import com.mojang.serialization.JsonOps;
-
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.block.model.BlockModel.GuiLight;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockElementRotation;
+import net.minecraft.client.renderer.block.model.BlockFaceUV;
+import net.minecraft.client.renderer.block.model.BlockModel.GuiLight;
 import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Direction;
@@ -39,8 +38,7 @@ import org.joml.Vector3f;
 
 public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
 
-  @Nullable
-  protected ModelFile parent;
+  @Nullable protected ModelFile parent;
   protected final Map<String, String> textures = new LinkedHashMap<>();
   protected final TransformsBuilder transforms = new TransformsBuilder();
   protected final ExistingFileHelper existingFileHelper;
@@ -56,14 +54,15 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
 
   private final RootTransformsBuilder rootTransforms = new RootTransformsBuilder();
 
-  protected MyModelBuilder(ResourceLocation outputLocation, ExistingFileHelper existingFileHelper)
-  {
+  protected MyModelBuilder(ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
     super(outputLocation);
     this.existingFileHelper = existingFileHelper;
   }
 
   @SuppressWarnings("unchecked")
-  private T self() { return (T) this; }
+  private T self() {
+    return (T) this;
+  }
 
   @Override
   protected boolean exists() {
@@ -75,8 +74,9 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
    *
    * @param parent the parent model
    * @return this builder
-   * @throws NullPointerException  if {@code parent} is {@code null}
-   * @throws IllegalStateException if {@code parent} does not {@link ModelFile#assertExistence() exist}
+   * @throws NullPointerException if {@code parent} is {@code null}
+   * @throws IllegalStateException if {@code parent} does not {@link ModelFile#assertExistence()
+   *     exist}
    */
   public T parent(ModelFile parent) {
     Preconditions.checkNotNull(parent, "Parent must not be null");
@@ -88,14 +88,13 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   /**
    * Set the texture for a given dictionary key.
    *
-   * @param key     the texture key
+   * @param key the texture key
    * @param texture the texture, can be another key e.g. {@code "#all"}
    * @return this builder
-   * @throws NullPointerException  if {@code key} is {@code null}
-   * @throws NullPointerException  if {@code texture} is {@code null}
-   * @throws IllegalStateException if {@code texture} is not a key (does not start
-   *                               with {@code '#'}) and does not exist in any
-   *                               known resource pack
+   * @throws NullPointerException if {@code key} is {@code null}
+   * @throws NullPointerException if {@code texture} is {@code null}
+   * @throws IllegalStateException if {@code texture} is not a key (does not start with {@code '#'})
+   *     and does not exist in any known resource pack
    */
   public T texture(String key, String texture) {
     Preconditions.checkNotNull(key, "Key must not be null");
@@ -117,14 +116,13 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   /**
    * Set the texture for a given dictionary key.
    *
-   * @param key     the texture key
+   * @param key the texture key
    * @param texture the texture
    * @return this builder
-   * @throws NullPointerException  if {@code key} is {@code null}
-   * @throws NullPointerException  if {@code texture} is {@code null}
-   * @throws IllegalStateException if {@code texture} is not a key (does not start
-   *                               with {@code '#'}) and does not exist in any
-   *                               known resource pack
+   * @throws NullPointerException if {@code key} is {@code null}
+   * @throws NullPointerException if {@code texture} is {@code null}
+   * @throws IllegalStateException if {@code texture} is not a key (does not start with {@code '#'})
+   *     and does not exist in any known resource pack
    */
   public T texture(String key, ResourceLocation texture) {
     Preconditions.checkNotNull(key, "Key must not be null");
@@ -134,15 +132,14 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   }
 
   /**
-   * Set the render type for this model. Any render types to be used must be registered via
-   * {@link net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
-   * <p>
-   * Consider using {@linkplain #renderType(String, String)} if you need to set a render type for
+   * Set the render type for this model. Any render types to be used must be registered via {@link
+   * net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
+   *
+   * <p>Consider using {@linkplain #renderType(String, String)} if you need to set a render type for
    * {@linkplain net.minecraft.client.GraphicsStatus#FAST fast graphics}.
    *
    * @param renderType the render type
    * @return this builder
-   *
    * @throws NullPointerException if {@code renderType} is {@code null}
    * @see #renderType(String, String)
    */
@@ -152,13 +149,14 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   }
 
   /**
-   * Set the render types for this model. Any render types to be used must be registered via
-   * {@link net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
+   * Set the render types for this model. Any render types to be used must be registered via {@link
+   * net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
    *
-   * @param renderType     the render type for {@linkplain net.minecraft.client.GraphicsStatus#FANCY fancy graphics}
-   * @param renderTypeFast the render type for {@linkplain net.minecraft.client.GraphicsStatus#FAST fast graphics}
+   * @param renderType the render type for {@linkplain net.minecraft.client.GraphicsStatus#FANCY
+   *     fancy graphics}
+   * @param renderTypeFast the render type for {@linkplain net.minecraft.client.GraphicsStatus#FAST
+   *     fast graphics}
    * @return this builder
-   *
    * @throws NullPointerException if {@code renderType} is {@code null}
    */
   public T renderType(String renderType, String renderTypeFast) {
@@ -168,15 +166,14 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   }
 
   /**
-   * Set the render type for this model. Any render types to be used must be registered via
-   * {@link net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
-   * <p>
-   * Consider using {@linkplain #renderType(ResourceLocation, ResourceLocation)} if you need to set a render type for
-   * {@linkplain net.minecraft.client.GraphicsStatus#FAST fast graphics}.
+   * Set the render type for this model. Any render types to be used must be registered via {@link
+   * net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
+   *
+   * <p>Consider using {@linkplain #renderType(ResourceLocation, ResourceLocation)} if you need to
+   * set a render type for {@linkplain net.minecraft.client.GraphicsStatus#FAST fast graphics}.
    *
    * @param renderType the render type
    * @return this builder
-   *
    * @throws NullPointerException if {@code renderType} is {@code null}
    * @see #renderType(ResourceLocation, ResourceLocation)
    */
@@ -188,13 +185,14 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   }
 
   /**
-   * Set the render types for this model. Any render types to be used must be registered via
-   * {@link net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
+   * Set the render types for this model. Any render types to be used must be registered via {@link
+   * net.minecraftforge.client.event.RegisterNamedRenderTypesEvent RegisterNamedRenderTypesEvent}.
    *
-   * @param renderType     the render type for {@linkplain net.minecraft.client.GraphicsStatus#FANCY fancy graphics}
-   * @param renderTypeFast the render type for {@linkplain net.minecraft.client.GraphicsStatus#FAST fast graphics}
+   * @param renderType the render type for {@linkplain net.minecraft.client.GraphicsStatus#FANCY
+   *     fancy graphics}
+   * @param renderTypeFast the render type for {@linkplain net.minecraft.client.GraphicsStatus#FAST
+   *     fast graphics}
    * @return this builder
-   *
    * @throws NullPointerException if {@code renderType} is {@code null}
    */
   public T renderType(ResourceLocation renderType, ResourceLocation renderTypeFast) {
@@ -220,7 +218,8 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
   }
 
   public ElementBuilder element() {
-    Preconditions.checkState(customLoader == null, "Cannot use elements and custom loaders at the same time");
+    Preconditions.checkState(
+        customLoader == null, "Cannot use elements and custom loaders at the same time");
     ElementBuilder ret = new ElementBuilder();
     elements.add(ret);
     return ret;
@@ -234,35 +233,35 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
    * @throws IndexOutOfBoundsException if {@code} index is out of bounds
    */
   public ElementBuilder element(int index) {
-    Preconditions.checkState(customLoader == null, "Cannot use elements and custom loaders at the same time");
+    Preconditions.checkState(
+        customLoader == null, "Cannot use elements and custom loaders at the same time");
     Preconditions.checkElementIndex(index, elements.size(), "Element index");
     return elements.get(index);
   }
 
-  /**
-   * {@return the number of elements in this model builder}
-   */
-  public int getElementCount()
-  {
+  /** {@return the number of elements in this model builder} */
+  public int getElementCount() {
     return elements.size();
   }
 
   /**
    * Use a custom loader instead of the vanilla elements.
-   * @param customLoaderFactory function that returns the custom loader to set, given this and the {@link #existingFileHelper}
+   *
+   * @param customLoaderFactory function that returns the custom loader to set, given this and the
+   *     {@link #existingFileHelper}
    * @return the custom loader builder
    */
-  public <L extends MyCustomLoaderBuilder<T>> L customLoader(BiFunction<T, ExistingFileHelper, L> customLoaderFactory)
-  {
-    Preconditions.checkState(elements.size() == 0, "Cannot use elements and custom loaders at the same time");
+  public <L extends MyCustomLoaderBuilder<T>> L customLoader(
+      BiFunction<T, ExistingFileHelper, L> customLoaderFactory) {
+    Preconditions.checkState(
+        elements.size() == 0, "Cannot use elements and custom loaders at the same time");
     Preconditions.checkNotNull(customLoaderFactory, "customLoaderFactory must not be null");
-    L customLoader  = customLoaderFactory.apply(self(), existingFileHelper);
+    L customLoader = customLoaderFactory.apply(self(), existingFileHelper);
     this.customLoader = customLoader;
     return customLoader;
   }
 
-  public RootTransformsBuilder rootTransforms()
-  {
+  public RootTransformsBuilder rootTransforms() {
     return rootTransforms;
   }
 
@@ -297,12 +296,14 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
         JsonObject transform = new JsonObject();
         ItemTransform vec = e.getValue();
         if (vec.equals(ItemTransform.NO_TRANSFORM)) continue;
-        var hasRightRotation = !vec.rightRotation.equals(ItemTransform.Deserializer.DEFAULT_ROTATION);
+        var hasRightRotation =
+            !vec.rightRotation.equals(ItemTransform.Deserializer.DEFAULT_ROTATION);
         if (!vec.translation.equals(ItemTransform.Deserializer.DEFAULT_TRANSLATION)) {
           transform.add("translation", serializeVector3f(e.getValue().translation));
         }
         if (!vec.rotation.equals(ItemTransform.Deserializer.DEFAULT_ROTATION)) {
-          transform.add(hasRightRotation ? "left_rotation" : "rotation", serializeVector3f(vec.rotation));
+          transform.add(
+              hasRightRotation ? "left_rotation" : "rotation", serializeVector3f(vec.rotation));
         }
         if (!vec.scale.equals(ItemTransform.Deserializer.DEFAULT_SCALE)) {
           transform.add("scale", serializeVector3f(e.getValue().scale));
@@ -325,67 +326,73 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
 
     if (!this.elements.isEmpty()) {
       JsonArray elements = new JsonArray();
-      this.elements.stream().map(ElementBuilder::build).forEach(part -> {
-        JsonObject partObj = new JsonObject();
-        partObj.add("from", serializeVector3f(part.from));
-        partObj.add("to", serializeVector3f(part.to));
+      this.elements.stream()
+          .map(ElementBuilder::build)
+          .forEach(
+              part -> {
+                JsonObject partObj = new JsonObject();
+                partObj.add("from", serializeVector3f(part.from));
+                partObj.add("to", serializeVector3f(part.to));
 
-        if (part.rotation != null) {
-          JsonObject rotation = new JsonObject();
-          rotation.add("origin", serializeVector3f(part.rotation.origin()));
-          rotation.addProperty("axis", part.rotation.axis().getSerializedName());
-          rotation.addProperty("angle", part.rotation.angle());
-          if (part.rotation.rescale()) {
-            rotation.addProperty("rescale", part.rotation.rescale());
-          }
-          partObj.add("rotation", rotation);
-        }
+                if (part.rotation != null) {
+                  JsonObject rotation = new JsonObject();
+                  rotation.add("origin", serializeVector3f(part.rotation.origin()));
+                  rotation.addProperty("axis", part.rotation.axis().getSerializedName());
+                  rotation.addProperty("angle", part.rotation.angle());
+                  if (part.rotation.rescale()) {
+                    rotation.addProperty("rescale", part.rotation.rescale());
+                  }
+                  partObj.add("rotation", rotation);
+                }
 
-        if (!part.shade) {
-          partObj.addProperty("shade", part.shade);
-        }
+                if (!part.shade) {
+                  partObj.addProperty("shade", part.shade);
+                }
 
-        JsonObject faces = new JsonObject();
-        for (Direction dir : Direction.values()) {
-          BlockElementFace face = part.faces.get(dir);
-          if (face == null) continue;
+                JsonObject faces = new JsonObject();
+                for (Direction dir : Direction.values()) {
+                  BlockElementFace face = part.faces.get(dir);
+                  if (face == null) continue;
 
-          JsonObject faceObj = new JsonObject();
-          faceObj.addProperty("texture", serializeLocOrKey(face.texture));
-          if (!Arrays.equals(face.uv.uvs, part.uvsByFace(dir))) {
-            faceObj.add("uv", new Gson().toJsonTree(face.uv.uvs));
-          }
-          if (face.cullForDirection != null) {
-            faceObj.addProperty("cullface", face.cullForDirection.getSerializedName());
-          }
-          if (face.uv.rotation != 0) {
-            faceObj.addProperty("rotation", face.uv.rotation);
-          }
-          if (face.tintIndex != -1) {
-            faceObj.addProperty("tintindex", face.tintIndex);
-          }
-          if (!face.getFaceData().equals(ForgeFaceData.DEFAULT)) {
-            faceObj.add("forge_data", ForgeFaceData.CODEC.encodeStart(JsonOps.INSTANCE, face.getFaceData()).result().get());
-          }
-          faces.add(dir.getSerializedName(), faceObj);
-        }
-        if (!part.faces.isEmpty()) {
-          partObj.add("faces", faces);
-        }
-        elements.add(partObj);
-      });
+                  JsonObject faceObj = new JsonObject();
+                  faceObj.addProperty("texture", serializeLocOrKey(face.texture));
+                  if (!Arrays.equals(face.uv.uvs, part.uvsByFace(dir))) {
+                    faceObj.add("uv", new Gson().toJsonTree(face.uv.uvs));
+                  }
+                  if (face.cullForDirection != null) {
+                    faceObj.addProperty("cullface", face.cullForDirection.getSerializedName());
+                  }
+                  if (face.uv.rotation != 0) {
+                    faceObj.addProperty("rotation", face.uv.rotation);
+                  }
+                  if (face.tintIndex != -1) {
+                    faceObj.addProperty("tintindex", face.tintIndex);
+                  }
+                  if (!face.getFaceData().equals(ForgeFaceData.DEFAULT)) {
+                    faceObj.add(
+                        "forge_data",
+                        ForgeFaceData.CODEC
+                            .encodeStart(JsonOps.INSTANCE, face.getFaceData())
+                            .result()
+                            .get());
+                  }
+                  faces.add(dir.getSerializedName(), faceObj);
+                }
+                if (!part.faces.isEmpty()) {
+                  partObj.add("faces", faces);
+                }
+                elements.add(partObj);
+              });
       root.add("elements", elements);
     }
 
     // If there were any transform properties set, add them to the output.
     JsonObject transform = rootTransforms.toJson();
-    if (transform.size() > 0)
-    {
+    if (transform.size() > 0) {
       root.add("transform", transform);
     }
 
-    if (customLoader != null)
-      return customLoader.toJson(root);
+    if (customLoader != null) return customLoader.toJson(root);
 
     return root;
   }
@@ -425,7 +432,10 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     private boolean calculateNormals = false;
 
     private void validateCoordinate(float coord, char name) {
-      Preconditions.checkArgument(!(coord < -16.0F) && !(coord > 32.0F), "Position " + name + " out of range, must be within [-16, 32]. Found: %d", coord);
+      Preconditions.checkArgument(
+          !(coord < -16.0F) && !(coord > 32.0F),
+          "Position " + name + " out of range, must be within [-16, 32]. Found: %d",
+          coord);
     }
 
     private void validatePosition(Vector3f pos) {
@@ -441,9 +451,8 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param y y-position for this vector
      * @param z z-position for this vector
      * @return this builder
-     * @throws IllegalArgumentException if the vector is out of bounds (any
-     *                                  coordinate not between -16 and 32,
-     *                                  inclusive)
+     * @throws IllegalArgumentException if the vector is out of bounds (any coordinate not between
+     *     -16 and 32, inclusive)
      */
     public ElementBuilder from(float x, float y, float z) {
       this.from = new Vector3f(x, y, z);
@@ -458,9 +467,8 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param y y-position for this vector
      * @param z z-position for this vector
      * @return this builder
-     * @throws IllegalArgumentException if the vector is out of bounds (any
-     *                                  coordinate not between -16 and 32,
-     *                                  inclusive)
+     * @throws IllegalArgumentException if the vector is out of bounds (any coordinate not between
+     *     -16 and 32, inclusive)
      */
     public ElementBuilder to(float x, float y, float z) {
       this.to = new Vector3f(x, y, z);
@@ -493,16 +501,15 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     }
 
     /**
-     * Modify all <em>possible</em> faces dynamically using a function, creating new
-     * faces as necessary.
+     * Modify all <em>possible</em> faces dynamically using a function, creating new faces as
+     * necessary.
      *
      * @param action the function to apply to each direction
      * @return this builder
      * @throws NullPointerException if {@code action} is {@code null}
      */
     public ElementBuilder allFaces(BiConsumer<Direction, FaceBuilder> action) {
-      Arrays.stream(Direction.values())
-          .forEach(d -> action.accept(d, face(d)));
+      Arrays.stream(Direction.values()).forEach(d -> action.accept(d, face(d)));
       return this;
     }
 
@@ -514,14 +521,13 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @throws NullPointerException if {@code action} is {@code null}
      */
     public ElementBuilder faces(BiConsumer<Direction, FaceBuilder> action) {
-      faces.entrySet().stream()
-          .forEach(e -> action.accept(e.getKey(), e.getValue()));
+      faces.entrySet().stream().forEach(e -> action.accept(e.getKey(), e.getValue()));
       return this;
     }
 
     /**
-     * Texture all <em>possible</em> faces in the current element with the given
-     * texture, creating new faces where necessary.
+     * Texture all <em>possible</em> faces in the current element with the given texture, creating
+     * new faces where necessary.
      *
      * @param texture the texture
      * @return this builder
@@ -532,8 +538,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     }
 
     /**
-     * Texture all <em>existing</em> faces in the current element with the given
-     * texture.
+     * Texture all <em>existing</em> faces in the current element with the given texture.
      *
      * @param texture the texture
      * @return this builder
@@ -544,8 +549,8 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     }
 
     /**
-     * Create a typical cube element, creating new faces as needed, applying the
-     * given texture, and setting the cullface.
+     * Create a typical cube element, creating new faces as needed, applying the given texture, and
+     * setting the cullface.
      *
      * @param texture the texture
      * @return this builder
@@ -556,8 +561,8 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     }
 
     /**
-     * Set the block and sky light of the element (0-15).
-     * Traditional "emissivity" values were set both of these to the same value.
+     * Set the block and sky light of the element (0-15). Traditional "emissivity" values were set
+     * both of these to the same value.
      *
      * @param blockLight the block light
      * @param skyLight the sky light
@@ -592,8 +597,9 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     }
 
     /**
-     *  Sets whether we should calculate actual normals for the faces of this model or inherit them from facing the
-     *  way vanilla does
+     * Sets whether we should calculate actual normals for the faces of this model or inherit them
+     * from facing the way vanilla does
+     *
      * @param calc whether to calculate normals
      * @return this builder
      */
@@ -607,12 +613,33 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     }
 
     BlockElement build() {
-      Map<Direction, BlockElementFace> faces = this.faces.entrySet().stream()
-          .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().build(), (k1, k2) -> { throw new IllegalArgumentException(); }, LinkedHashMap::new));
-      return new BlockElement(from, to, faces, rotation == null ? null : rotation.build(), shade, new ForgeFaceData(this.color, this.blockLight, this.skyLight, this.hasAmbientOcclusion, this.calculateNormals));
+      Map<Direction, BlockElementFace> faces =
+          this.faces.entrySet().stream()
+              .collect(
+                  Collectors.toMap(
+                      Map.Entry::getKey,
+                      e -> e.getValue().build(),
+                      (k1, k2) -> {
+                        throw new IllegalArgumentException();
+                      },
+                      LinkedHashMap::new));
+      return new BlockElement(
+          from,
+          to,
+          faces,
+          rotation == null ? null : rotation.build(),
+          shade,
+          new ForgeFaceData(
+              this.color,
+              this.blockLight,
+              this.skyLight,
+              this.hasAmbientOcclusion,
+              this.calculateNormals));
     }
 
-    public T end() { return self(); }
+    public T end() {
+      return self();
+    }
 
     public class FaceBuilder {
 
@@ -654,7 +681,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
       }
 
       public FaceBuilder uvs(float u1, float v1, float u2, float v2) {
-        this.uvs = new float[] { u1, v1, u2, v2 };
+        this.uvs = new float[] {u1, v1, u2, v2};
         return this;
       }
 
@@ -672,8 +699,8 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
       }
 
       /**
-       * Set the block and sky light of the face (0-15).
-       * Traditional "emissivity" values set both of these to the same value.
+       * Set the block and sky light of the face (0-15). Traditional "emissivity" values set both of
+       * these to the same value.
        *
        * @param blockLight the block light
        * @param skyLight the sky light
@@ -708,8 +735,9 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
       }
 
       /**
-       *  Sets whether we should calculate actual normals for this face or inherit them from facing the
-       *  way vanilla does
+       * Sets whether we should calculate actual normals for this face or inherit them from facing
+       * the way vanilla does
+       *
        * @param calc whether to calculate normals
        * @return this builder
        */
@@ -722,10 +750,22 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
         if (this.texture == null) {
           throw new IllegalStateException("A model face must have a texture");
         }
-        return new BlockElementFace(cullface, tintindex, texture, new BlockFaceUV(uvs, rotation.rotation), new ForgeFaceData(this.color, this.blockLight, this.skyLight, this.hasAmbientOcclusion, this.calculateNormals));
+        return new BlockElementFace(
+            cullface,
+            tintindex,
+            texture,
+            new BlockFaceUV(uvs, rotation.rotation),
+            new ForgeFaceData(
+                this.color,
+                this.blockLight,
+                this.skyLight,
+                this.hasAmbientOcclusion,
+                this.calculateNormals));
       }
 
-      public ElementBuilder end() { return ElementBuilder.this; }
+      public ElementBuilder end() {
+        return ElementBuilder.this;
+      }
     }
 
     public class RotationBuilder {
@@ -758,7 +798,10 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
        */
       public RotationBuilder angle(float angle) {
         // Same logic from BlockPart.Deserializer#parseAngle
-        Preconditions.checkArgument(angle == 0.0F || Mth.abs(angle) == 22.5F || Mth.abs(angle) == 45.0F, "Invalid rotation %f found, only -45/-22.5/0/22.5/45 allowed", angle);
+        Preconditions.checkArgument(
+            angle == 0.0F || Mth.abs(angle) == 22.5F || Mth.abs(angle) == 45.0F,
+            "Invalid rotation %f found, only -45/-22.5/0/22.5/45 allowed",
+            angle);
         this.angle = angle;
         return this;
       }
@@ -772,7 +815,9 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
         return new BlockElementRotation(origin, axis, angle, rescale);
       }
 
-      public ElementBuilder end() { return ElementBuilder.this; }
+      public ElementBuilder end() {
+        return ElementBuilder.this;
+      }
     }
   }
 
@@ -808,10 +853,19 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
 
     Map<ItemDisplayContext, ItemTransform> build() {
       return this.transforms.entrySet().stream()
-          .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().build(), (k1, k2) -> { throw new IllegalArgumentException(); }, LinkedHashMap::new));
+          .collect(
+              Collectors.toMap(
+                  Map.Entry::getKey,
+                  e -> e.getValue().build(),
+                  (k1, k2) -> {
+                    throw new IllegalArgumentException();
+                  },
+                  LinkedHashMap::new));
     }
 
-    public T end() { return self(); }
+    public T end() {
+      return self();
+    }
 
     public class TransformVecBuilder {
 
@@ -856,12 +910,13 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
         return new ItemTransform(rotation, translation, scale, rightRotation);
       }
 
-      public TransformsBuilder end() { return TransformsBuilder.this; }
+      public TransformsBuilder end() {
+        return TransformsBuilder.this;
+      }
     }
   }
 
-  public class RootTransformsBuilder
-  {
+  public class RootTransformsBuilder {
     private static final Vector3f ONE = new Vector3f(1, 1, 1);
 
     private Vector3f translation = new Vector3f();
@@ -872,9 +927,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
     private @Nullable TransformationHelper.TransformOrigin origin;
     private @Nullable Vector3f originVec;
 
-    RootTransformsBuilder()
-    {
-    }
+    RootTransformsBuilder() {}
 
     /**
      * Sets the translation of the root transform.
@@ -883,8 +936,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code translation} is {@code null}
      */
-    public RootTransformsBuilder translation(Vector3f translation)
-    {
+    public RootTransformsBuilder translation(Vector3f translation) {
       this.translation = Preconditions.checkNotNull(translation, "Translation must not be null");
       return this;
     }
@@ -897,8 +949,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param z z translation
      * @return this builder
      */
-    public RootTransformsBuilder translation(float x, float y, float z)
-    {
+    public RootTransformsBuilder translation(float x, float y, float z) {
       return translation(new Vector3f(x, y, z));
     }
 
@@ -909,8 +960,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code rotation} is {@code null}
      */
-    public RootTransformsBuilder rotation(Quaternionf rotation)
-    {
+    public RootTransformsBuilder rotation(Quaternionf rotation) {
       this.leftRotation = Preconditions.checkNotNull(rotation, "Rotation must not be null");
       return this;
     }
@@ -924,8 +974,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param isDegrees whether the rotation is in degrees or radians
      * @return this builder
      */
-    public RootTransformsBuilder rotation(float x, float y, float z, boolean isDegrees)
-    {
+    public RootTransformsBuilder rotation(float x, float y, float z, boolean isDegrees) {
       return rotation(TransformationHelper.quatFromXYZ(x, y, z, isDegrees));
     }
 
@@ -936,8 +985,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code leftRotation} is {@code null}
      */
-    public RootTransformsBuilder leftRotation(Quaternionf leftRotation)
-    {
+    public RootTransformsBuilder leftRotation(Quaternionf leftRotation) {
       return rotation(leftRotation);
     }
 
@@ -950,8 +998,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param isDegrees whether the rotation is in degrees or radians
      * @return this builder
      */
-    public RootTransformsBuilder leftRotation(float x, float y, float z, boolean isDegrees)
-    {
+    public RootTransformsBuilder leftRotation(float x, float y, float z, boolean isDegrees) {
       return leftRotation(TransformationHelper.quatFromXYZ(x, y, z, isDegrees));
     }
 
@@ -962,8 +1009,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code rightRotation} is {@code null}
      */
-    public RootTransformsBuilder rightRotation(Quaternionf rightRotation)
-    {
+    public RootTransformsBuilder rightRotation(Quaternionf rightRotation) {
       this.rightRotation = Preconditions.checkNotNull(rightRotation, "Rotation must not be null");
       return this;
     }
@@ -977,8 +1023,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param isDegrees whether the rotation is in degrees or radians
      * @return this builder
      */
-    public RootTransformsBuilder rightRotation(float x, float y, float z, boolean isDegrees)
-    {
+    public RootTransformsBuilder rightRotation(float x, float y, float z, boolean isDegrees) {
       return rightRotation(TransformationHelper.quatFromXYZ(x, y, z, isDegrees));
     }
 
@@ -989,8 +1034,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code rightRotation} is {@code null}
      */
-    public RootTransformsBuilder postRotation(Quaternionf postRotation)
-    {
+    public RootTransformsBuilder postRotation(Quaternionf postRotation) {
       return rightRotation(postRotation);
     }
 
@@ -1003,8 +1047,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param isDegrees whether the rotation is in degrees or radians
      * @return this builder
      */
-    public RootTransformsBuilder postRotation(float x, float y, float z, boolean isDegrees)
-    {
+    public RootTransformsBuilder postRotation(float x, float y, float z, boolean isDegrees) {
       return postRotation(TransformationHelper.quatFromXYZ(x, y, z, isDegrees));
     }
 
@@ -1014,8 +1057,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param scale the scale
      * @return this builder
      */
-    public RootTransformsBuilder scale(float scale)
-    {
+    public RootTransformsBuilder scale(float scale) {
       return scale(new Vector3f(scale, scale, scale));
     }
 
@@ -1027,8 +1069,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param zScale z scale
      * @return this builder
      */
-    public RootTransformsBuilder scale(float xScale, float yScale, float zScale)
-    {
+    public RootTransformsBuilder scale(float xScale, float yScale, float zScale) {
       return scale(new Vector3f(xScale, yScale, zScale));
     }
 
@@ -1039,8 +1080,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code scale} is {@code null}
      */
-    public RootTransformsBuilder scale(Vector3f scale)
-    {
+    public RootTransformsBuilder scale(Vector3f scale) {
       this.scale = Preconditions.checkNotNull(scale, "Scale must not be null");
       return this;
     }
@@ -1052,8 +1092,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code transformation} is {@code null}
      */
-    public RootTransformsBuilder transform(Transformation transformation)
-    {
+    public RootTransformsBuilder transform(Transformation transformation) {
       Preconditions.checkNotNull(transformation, "Transformation must not be null");
       this.translation = transformation.getTranslation();
       this.leftRotation = transformation.getLeftRotation();
@@ -1069,8 +1108,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @return this builder
      * @throws NullPointerException if {@code origin} is {@code null}
      */
-    public RootTransformsBuilder origin(Vector3f origin)
-    {
+    public RootTransformsBuilder origin(Vector3f origin) {
       this.originVec = Preconditions.checkNotNull(origin, "Origin must not be null");
       this.origin = null;
       return this;
@@ -1082,10 +1120,10 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
      * @param origin the origin name
      * @return this builder
      * @throws NullPointerException if {@code origin} is {@code null}
-     * @throws IllegalArgumentException if {@code origin} is not {@code center}, {@code corner} or {@code opposing-corner}
+     * @throws IllegalArgumentException if {@code origin} is not {@code center}, {@code corner} or
+     *     {@code opposing-corner}
      */
-    public RootTransformsBuilder origin(TransformationHelper.TransformOrigin origin)
-    {
+    public RootTransformsBuilder origin(TransformationHelper.TransformOrigin origin) {
       this.origin = Preconditions.checkNotNull(origin, "Origin must not be null");
       this.originVec = null;
       return this;
@@ -1093,10 +1131,10 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
 
     /**
      * Finish configuring the parent builder
+     *
      * @return the parent block model builder
      */
-    public MyModelBuilder<T> end()
-    {
+    public MyModelBuilder<T> end() {
       return MyModelBuilder.this;
     }
 
@@ -1104,40 +1142,32 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
       // Write the transform to an object
       JsonObject transform = new JsonObject();
 
-      if (!translation.equals(0, 0, 0))
-      {
+      if (!translation.equals(0, 0, 0)) {
         transform.add("translation", writeVec3(translation));
       }
 
-      if (!scale.equals(ONE))
-      {
+      if (!scale.equals(ONE)) {
         transform.add("scale", writeVec3(scale));
       }
 
-      if (!leftRotation.equals(0, 0, 0, 1))
-      {
+      if (!leftRotation.equals(0, 0, 0, 1)) {
         transform.add("rotation", writeQuaternion(leftRotation));
       }
 
-      if (!rightRotation.equals(0, 0, 0, 1))
-      {
+      if (!rightRotation.equals(0, 0, 0, 1)) {
         transform.add("post_rotation", writeQuaternion(rightRotation));
       }
 
-      if (origin != null)
-      {
+      if (origin != null) {
         transform.addProperty("origin", origin.getSerializedName());
-      }
-      else if (originVec != null && !originVec.equals(0, 0, 0))
-      {
+      } else if (originVec != null && !originVec.equals(0, 0, 0)) {
         transform.add("origin", writeVec3(originVec));
       }
 
       return transform;
     }
 
-    private static JsonArray writeVec3(Vector3f vector)
-    {
+    private static JsonArray writeVec3(Vector3f vector) {
       JsonArray array = new JsonArray();
       array.add(vector.x());
       array.add(vector.y());
@@ -1145,8 +1175,7 @@ public class MyModelBuilder<T extends MyModelBuilder<T>> extends ModelFile {
       return array;
     }
 
-    private static JsonArray writeQuaternion(Quaternionf quaternion)
-    {
+    private static JsonArray writeQuaternion(Quaternionf quaternion) {
       JsonArray array = new JsonArray();
       array.add(quaternion.x());
       array.add(quaternion.y());

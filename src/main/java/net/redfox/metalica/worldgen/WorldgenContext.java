@@ -1,3 +1,4 @@
+/* (C)2025 */
 package net.redfox.metalica.worldgen;
 
 import net.minecraft.resources.ResourceKey;
@@ -19,9 +20,9 @@ public class WorldgenContext {
     this.veinCount = veinCount;
     this.minY = minY;
     this.maxY = maxY;
-    biomeResourceKey = ModBiomeModifiers.registerKey("add_"+name+"_ore");
-    configuredFeatureResourceKey = ModConfiguredFeatures.registerKey(name+"_ore");
-    placedFeatureResourceKey = ModPlacedFeatures.registerKey(name+"_ore_placed");
+    biomeResourceKey = ModBiomeModifiers.registerKey("add_" + name + "_ore");
+    configuredFeatureResourceKey = ModConfiguredFeatures.registerKey(name + "_ore");
+    placedFeatureResourceKey = ModPlacedFeatures.registerKey(name + "_ore_placed");
   }
 
   public int getVeinSize() {
@@ -49,6 +50,6 @@ public class WorldgenContext {
   }
 
   public ResourceKey<PlacedFeature> getPlacedFeatureResourceKey() {
-    return  placedFeatureResourceKey;
+    return placedFeatureResourceKey;
   }
 }

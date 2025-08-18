@@ -1,5 +1,7 @@
+/* (C)2025 */
 package net.redfox.metalica.material;
 
+import java.util.ArrayList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -10,33 +12,95 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.RegistryObject;
+import net.redfox.metalica.Metalica;
 import net.redfox.metalica.block.ModBlocks;
 import net.redfox.metalica.fluid.ModFluids;
 import net.redfox.metalica.item.ModItems;
 import net.redfox.metalica.util.ModTags;
 import net.redfox.metalica.worldgen.WorldgenContext;
 import slimeknights.mantle.registration.object.FlowingFluidObject;
-import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
-import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
-
-import java.util.ArrayList;
 
 public class MetalMaterial {
-  private static final String[] PRE_EXISTING_TINKERS_METALS = new String[]{
-      "aluminum", "amethyst_bronze", "ancient", "ancient_hide", "bamboo", "blazewood",
-      "blazing_bone", "blood", "bloodbone", "bone", "bronze", "cactus", "chain", "chorus",
-      "cinderslime", "clay", "cobalt", "constantan", "copper", "darkthread", "earthslime",
-      "electrum", "ender_pearl", "enderslime", "enderslime_vine", "fiery", "flint", "glass",
-      "gold", "hepatizon", "honey", "ice", "ichor", "ichorskin", "invar", "iron", "ironwood",
-      "knightmetal", "lead", "leather", "magma", "manyullyn", "nahuatl", "necronium",
-      "necrotic_bone", "obsidian", "osmium", "pewter", "phantom", "pig_iron",
-      "plated_slimewood", "platinum", "queens_slime", "rock", "rose_gold", "rotten_flesh",
-      "scorched_stone", "seared_stone", "silver", "skyslime", "skyslime_vine", "slimeskin",
-      "slimesteel", "slimewood", "steel", "steeleaf", "string", "treated_wood", "tungsten",
-      "twisting_vine", "venombone", "vine", "weeping_vine", "whitestone", "wood"
-  };
+  private static final String[] PRE_EXISTING_TINKERS_METALS =
+      new String[] {
+        "aluminum",
+        "amethyst_bronze",
+        "ancient",
+        "ancient_hide",
+        "bamboo",
+        "blazewood",
+        "blazing_bone",
+        "blood",
+        "bloodbone",
+        "bone",
+        "bronze",
+        "cactus",
+        "chain",
+        "chorus",
+        "cinderslime",
+        "clay",
+        "cobalt",
+        "constantan",
+        "copper",
+        "darkthread",
+        "earthslime",
+        "electrum",
+        "ender_pearl",
+        "enderslime",
+        "enderslime_vine",
+        "fiery",
+        "flint",
+        "glass",
+        "gold",
+        "hepatizon",
+        "honey",
+        "ice",
+        "ichor",
+        "ichorskin",
+        "invar",
+        "iron",
+        "ironwood",
+        "knightmetal",
+        "lead",
+        "leather",
+        "magma",
+        "manyullyn",
+        "nahuatl",
+        "necronium",
+        "necrotic_bone",
+        "obsidian",
+        "osmium",
+        "pewter",
+        "phantom",
+        "pig_iron",
+        "plated_slimewood",
+        "platinum",
+        "queens_slime",
+        "rock",
+        "rose_gold",
+        "rotten_flesh",
+        "scorched_stone",
+        "seared_stone",
+        "silver",
+        "skyslime",
+        "skyslime_vine",
+        "slimeskin",
+        "slimesteel",
+        "slimewood",
+        "steel",
+        "steeleaf",
+        "string",
+        "treated_wood",
+        "tungsten",
+        "twisting_vine",
+        "venombone",
+        "vine",
+        "weeping_vine",
+        "whitestone",
+        "wood"
+      };
   private static final ArrayList<MetalMaterial> MATERIALS = new ArrayList<>();
-  //Pre-existing metal materials to remove
+  // Pre-existing metal materials to remove
   private static final ArrayList<String> TO_REMOVE = new ArrayList<>();
 
   private final String displayName;
@@ -64,9 +128,14 @@ public class MetalMaterial {
   private final WorldgenContext worldgenContext;
   private final TinkersMaterialBuilder tinkersMaterialBuilder;
 
-  protected MetalMaterial(String displayName, String name, int color, TagKey<Block> oreMiningLevel,
-                          TagKey<Block> storageBlockMiningLevel, WorldgenContext worldgenContext,
-                          TinkersMaterialBuilder tinkersMaterialBuilder) {
+  protected MetalMaterial(
+      String displayName,
+      String name,
+      int color,
+      TagKey<Block> oreMiningLevel,
+      TagKey<Block> storageBlockMiningLevel,
+      WorldgenContext worldgenContext,
+      TinkersMaterialBuilder tinkersMaterialBuilder) {
     MATERIALS.add(this);
     this.displayName = displayName;
     this.name = name;
@@ -74,13 +143,21 @@ public class MetalMaterial {
     this.worldgenContext = worldgenContext;
 
     if (worldgenContext != null) {
-      stoneOre = ModBlocks.registerBlock(name+"_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
-      deepslateOre = ModBlocks.registerBlock("deepslate_"+name+"_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)));
-      rawStorageBlock = ModBlocks.registerBlock("raw_"+name+"_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
-      raw = ModItems.ITEMS.register("raw_"+name, () -> new Item(new Item.Properties()));
+      stoneOre =
+          ModBlocks.registerBlock(
+              name + "_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
+      deepslateOre =
+          ModBlocks.registerBlock(
+              "deepslate_" + name + "_ore",
+              () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)));
+      rawStorageBlock =
+          ModBlocks.registerBlock(
+              "raw_" + name + "_block",
+              () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
+      raw = ModItems.ITEMS.register("raw_" + name, () -> new Item(new Item.Properties()));
 
-      oreTag = ModTags.Items.forgeTag("ores/"+name);
-      rawTag = ModTags.Items.forgeTag("raw_materials/"+name);
+      oreTag = ModTags.Items.forgeTag("ores/" + name);
+      rawTag = ModTags.Items.forgeTag("raw_materials/" + name);
     } else {
       stoneOre = null;
       deepslateOre = null;
@@ -91,23 +168,25 @@ public class MetalMaterial {
       rawTag = null;
     }
 
-    storageBlock = ModBlocks.registerBlock(name+"_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
-    ingot = ModItems.ITEMS.register(name+"_ingot", () -> new Item(new Item.Properties()));
-    nugget = ModItems.ITEMS.register(name+"_nugget", () -> new Item(new Item.Properties()));
-    dust = ModItems.ITEMS.register(name+"_dust", () -> new Item(new Item.Properties()));
+    storageBlock =
+        ModBlocks.registerBlock(
+            name + "_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    ingot = ModItems.ITEMS.register(name + "_ingot", () -> new Item(new Item.Properties()));
+    nugget = ModItems.ITEMS.register(name + "_nugget", () -> new Item(new Item.Properties()));
+    dust = ModItems.ITEMS.register(name + "_dust", () -> new Item(new Item.Properties()));
 
     this.oreMiningLevel = oreMiningLevel;
     this.storageBlockMiningLevel = storageBlockMiningLevel;
 
-    dustTag = ModTags.Items.forgeTag("dusts/"+name);
-    ingotTag = ModTags.Items.forgeTag("ingots/"+name);
-    nuggetTag = ModTags.Items.forgeTag("nuggets/"+name);
-    storageBlockTag = ModTags.Items.forgeTag("storage_blocks/"+name);
-    rawStorageBlockTag = ModTags.Items.forgeTag("raw_storage_blocks/"+name);
+    dustTag = ModTags.Items.forgeTag("dusts/" + name);
+    ingotTag = ModTags.Items.forgeTag("ingots/" + name);
+    nuggetTag = ModTags.Items.forgeTag("nuggets/" + name);
+    storageBlockTag = ModTags.Items.forgeTag("storage_blocks/" + name);
+    rawStorageBlockTag = ModTags.Items.forgeTag("raw_storage_blocks/" + name);
 
     if (ModList.get().isLoaded("mantle")) {
-      fluid = ModFluids.createMoltenFluid("molten_"+name);
-      fluidTag = ModTags.Fluids.tag("molten_"+name);
+      fluid = ModFluids.createMoltenFluid("molten_" + name);
+      fluidTag = ModTags.Fluids.tag("molten_" + name);
     } else {
       fluid = null;
       fluidTag = null;
@@ -122,6 +201,8 @@ public class MetalMaterial {
         }
       }
     }
+
+    Metalica.LOGGER.debug("Successfully added material \"{}\"", name);
   }
 
   public String getDisplayName() {
@@ -270,8 +351,14 @@ public class MetalMaterial {
     }
 
     public MetalMaterial build() {
-      return new MetalMaterial(displayName, name, color, oreMiningLevel, storageBlockMiningLevel,
-          worldgenContext, tinkersMaterialBuilder);
+      return new MetalMaterial(
+          displayName,
+          name,
+          color,
+          oreMiningLevel,
+          storageBlockMiningLevel,
+          worldgenContext,
+          tinkersMaterialBuilder);
     }
   }
 }

@@ -1,3 +1,4 @@
+/* (C)2025 */
 package net.redfox.metalica.compat.tconstruct.datagen;
 
 import net.minecraft.data.PackOutput;
@@ -10,28 +11,26 @@ import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 
 public class TinkersMaterialTraitProvider extends MyAbstractMaterialTraitDataProvider {
-  public TinkersMaterialTraitProvider(PackOutput packOutput, AbstractMaterialDataProvider materials) {
+  public TinkersMaterialTraitProvider(
+      PackOutput packOutput, AbstractMaterialDataProvider materials) {
     super(packOutput, materials);
   }
 
-  /**
-   * Adds all relevant material stats
-   */
+  /** Adds all relevant material stats */
   @Override
   protected void addMaterialTraits() {
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       if (material.getTinkersMaterialBuilder() == null) continue;
       if (material.getTinkersMaterialBuilder().getModifier() == null) continue;
       addDefaultTraits(
-          new MaterialId(ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
-          new ModifierId(ResourceLocation.parse(material.getTinkersMaterialBuilder().getModifier()))
-      );
+          new MaterialId(
+              ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, material.getName())),
+          new ModifierId(
+              ResourceLocation.parse(material.getTinkersMaterialBuilder().getModifier())));
     }
   }
 
-  /**
-   * Gets a name for this provider, to use in logging.
-   */
+  /** Gets a name for this provider, to use in logging. */
   @Override
   public String getName() {
     return "TConstruct Traits Provider";

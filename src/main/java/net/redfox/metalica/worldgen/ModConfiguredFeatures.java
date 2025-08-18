@@ -1,5 +1,7 @@
+/* (C)2025 */
 package net.redfox.metalica.worldgen;
 
+import java.util.List;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
@@ -14,8 +16,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.redfox.metalica.Metalica;
 import net.redfox.metalica.material.MetalMaterial;
 
-import java.util.List;
-
 public class ModConfiguredFeatures {
 
   public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
@@ -24,21 +24,31 @@ public class ModConfiguredFeatures {
 
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       if (!material.hasOre()) continue;
-      List<OreConfiguration.TargetBlockState> ores = List.of(
-          OreConfiguration.target(stoneReplacable, material.getStoneOre().get().defaultBlockState()),
-          OreConfiguration.target(deepslateReplacable, material.getDeepslateOre().get().defaultBlockState())
-      );
-      register(context, material.getWorldgenContext().getConfiguredFeatureResourceKey(), Feature.ORE, new OreConfiguration(
-          ores, material.getWorldgenContext().getVeinSize())
-      );
+      List<OreConfiguration.TargetBlockState> ores =
+          List.of(
+              OreConfiguration.target(
+                  stoneReplacable, material.getStoneOre().get().defaultBlockState()),
+              OreConfiguration.target(
+                  deepslateReplacable, material.getDeepslateOre().get().defaultBlockState()));
+      register(
+          context,
+          material.getWorldgenContext().getConfiguredFeatureResourceKey(),
+          Feature.ORE,
+          new OreConfiguration(ores, material.getWorldgenContext().getVeinSize()));
     }
   }
 
   public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-    return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, name));
+    return ResourceKey.create(
+        Registries.CONFIGURED_FEATURE,
+        ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, name));
   }
 
-  private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
+  private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(
+      BootstapContext<ConfiguredFeature<?, ?>> context,
+      ResourceKey<ConfiguredFeature<?, ?>> key,
+      F feature,
+      FC configuration) {
     context.register(key, new ConfiguredFeature<>(feature, configuration));
   }
 }

@@ -1,28 +1,24 @@
+/* (C)2025 */
 package net.redfox.metalica.datagen.models;
-
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-/**
- * Builder for item models, adds the ability to build overrides via
- * {@link #override()}.
- */
+/** Builder for item models, adds the ability to build overrides via {@link #override()}. */
 public class MyItemModelBuilder extends MyModelBuilder<MyItemModelBuilder> {
 
   protected List<MyItemModelBuilder.OverrideBuilder> overrides = new ArrayList<>();
 
-  public MyItemModelBuilder(ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
+  public MyItemModelBuilder(
+      ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
     super(outputLocation, existingFileHelper);
   }
 
@@ -49,7 +45,9 @@ public class MyItemModelBuilder extends MyModelBuilder<MyItemModelBuilder> {
     JsonObject root = super.toJson();
     if (!overrides.isEmpty()) {
       JsonArray overridesJson = new JsonArray();
-      overrides.stream().map(MyItemModelBuilder.OverrideBuilder::toJson).forEach(overridesJson::add);
+      overrides.stream()
+          .map(MyItemModelBuilder.OverrideBuilder::toJson)
+          .forEach(overridesJson::add);
       root.add("overrides", overridesJson);
     }
     return root;
@@ -71,7 +69,9 @@ public class MyItemModelBuilder extends MyModelBuilder<MyItemModelBuilder> {
       return this;
     }
 
-    public MyItemModelBuilder end() { return MyItemModelBuilder.this; }
+    public MyItemModelBuilder end() {
+      return MyItemModelBuilder.this;
+    }
 
     JsonObject toJson() {
       JsonObject ret = new JsonObject();
@@ -82,5 +82,4 @@ public class MyItemModelBuilder extends MyModelBuilder<MyItemModelBuilder> {
       return ret;
     }
   }
-
 }

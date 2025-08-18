@@ -1,3 +1,4 @@
+/* (C)2025 */
 package net.redfox.metalica.worldgen;
 
 import net.minecraft.core.HolderGetter;
@@ -24,15 +25,20 @@ public class ModBiomeModifiers {
 
     for (MetalMaterial material : MetalMaterial.getMaterials()) {
       if (!material.hasOre()) continue;
-      context.register(material.getWorldgenContext().getBiomeResourceKey(), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-          biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-          HolderSet.direct(placedFeatures.getOrThrow(material.getWorldgenContext().getPlacedFeatureResourceKey())),
-          GenerationStep.Decoration.UNDERGROUND_ORES
-      ));
+      context.register(
+          material.getWorldgenContext().getBiomeResourceKey(),
+          new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+              biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+              HolderSet.direct(
+                  placedFeatures.getOrThrow(
+                      material.getWorldgenContext().getPlacedFeatureResourceKey())),
+              GenerationStep.Decoration.UNDERGROUND_ORES));
     }
   }
 
   public static ResourceKey<BiomeModifier> registerKey(String name) {
-    return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, name));
+    return ResourceKey.create(
+        ForgeRegistries.Keys.BIOME_MODIFIERS,
+        ResourceLocation.fromNamespaceAndPath(Metalica.MOD_ID, name));
   }
 }

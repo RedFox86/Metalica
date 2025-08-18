@@ -1,3 +1,4 @@
+/* (C)2025 */
 package net.redfox.metalica.datagen;
 
 import net.minecraft.data.PackOutput;

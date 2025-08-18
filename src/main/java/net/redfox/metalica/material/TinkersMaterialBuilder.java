@@ -1,10 +1,10 @@
+/* (C)2025 */
 package net.redfox.metalica.material;
 
+import java.util.ArrayList;
 import net.minecraft.world.item.Tier;
 import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
 import slimeknights.tconstruct.tools.stats.*;
-
-import java.util.ArrayList;
 
 public class TinkersMaterialBuilder {
   private final ArrayList<IMaterialStats> statList = new ArrayList<>();
@@ -43,34 +43,58 @@ public class TinkersMaterialBuilder {
     return this;
   }
 
-  public TinkersMaterialBuilder handle(float durability, float miningSpeed, float meleeSpeed, float attackDamage) {
+  public TinkersMaterialBuilder handle(
+      float durability, float miningSpeed, float meleeSpeed, float attackDamage) {
     this.handleStats = new HandleMaterialStats(durability, miningSpeed, meleeSpeed, attackDamage);
     statList.add(handleStats);
     return this;
   }
 
-  public TinkersMaterialBuilder helmet(int durability, float armor, float armorToughness, float knockbackResistance) {
-    this.helmetStats = new PlatingMaterialStats(PlatingMaterialStats.HELMET, durability, armor, armorToughness, knockbackResistance);
+  public TinkersMaterialBuilder helmet(
+      int durability, float armor, float armorToughness, float knockbackResistance) {
+    this.helmetStats =
+        new PlatingMaterialStats(
+            PlatingMaterialStats.HELMET, durability, armor, armorToughness, knockbackResistance);
     statList.add(helmetStats);
     return this;
   }
-  public TinkersMaterialBuilder chestplate(int durability, float armor, float armorToughness, float knockbackResistance) {
-    this.chestplateStats = new PlatingMaterialStats(PlatingMaterialStats.CHESTPLATE, durability, armor, armorToughness, knockbackResistance);
+
+  public TinkersMaterialBuilder chestplate(
+      int durability, float armor, float armorToughness, float knockbackResistance) {
+    this.chestplateStats =
+        new PlatingMaterialStats(
+            PlatingMaterialStats.CHESTPLATE,
+            durability,
+            armor,
+            armorToughness,
+            knockbackResistance);
     statList.add(chestplateStats);
     return this;
   }
-  public TinkersMaterialBuilder leggings(int durability, float armor, float armorToughness, float knockbackResistance) {
-    this.leggingsStats = new PlatingMaterialStats(PlatingMaterialStats.LEGGINGS, durability, armor, armorToughness, knockbackResistance);
+
+  public TinkersMaterialBuilder leggings(
+      int durability, float armor, float armorToughness, float knockbackResistance) {
+    this.leggingsStats =
+        new PlatingMaterialStats(
+            PlatingMaterialStats.LEGGINGS, durability, armor, armorToughness, knockbackResistance);
     statList.add(leggingsStats);
     return this;
   }
-  public TinkersMaterialBuilder boots(int durability, float armor, float armorToughness, float knockbackResistance) {
-    this.bootsStats = new PlatingMaterialStats(PlatingMaterialStats.BOOTS, durability, armor, armorToughness, knockbackResistance);
+
+  public TinkersMaterialBuilder boots(
+      int durability, float armor, float armorToughness, float knockbackResistance) {
+    this.bootsStats =
+        new PlatingMaterialStats(
+            PlatingMaterialStats.BOOTS, durability, armor, armorToughness, knockbackResistance);
     statList.add(bootsStats);
     return this;
   }
-  public TinkersMaterialBuilder shield(int durability, float armor, float armorToughness, float knockbackResistance) {
-    this.shieldStats = new PlatingMaterialStats(PlatingMaterialStats.SHIELD, durability, armor, armorToughness, knockbackResistance);
+
+  public TinkersMaterialBuilder shield(
+      int durability, float armor, float armorToughness, float knockbackResistance) {
+    this.shieldStats =
+        new PlatingMaterialStats(
+            PlatingMaterialStats.SHIELD, durability, armor, armorToughness, knockbackResistance);
     statList.add(shieldStats);
     return this;
   }
@@ -81,7 +105,8 @@ public class TinkersMaterialBuilder {
     return this;
   }
 
-  public TinkersMaterialBuilder limb(int durability, float drawSpeed, float velocity, float accuracy) {
+  public TinkersMaterialBuilder limb(
+      int durability, float drawSpeed, float velocity, float accuracy) {
     this.limbStats = new LimbMaterialStats(durability, drawSpeed, velocity, accuracy);
     statList.add(limbStats);
     return this;

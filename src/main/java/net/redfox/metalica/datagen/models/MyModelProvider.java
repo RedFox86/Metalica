@@ -1,5 +1,5 @@
+/* (C)2025 */
 package net.redfox.metalica.datagen.models;
-
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
@@ -25,23 +25,29 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
   public static final String BLOCK_FOLDER = "block";
   public static final String ITEM_FOLDER = "item";
 
-  protected static final ResourceType TEXTURE = new ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
-  protected static final ResourceType MODEL = new ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
-  protected static final ResourceType MODEL_WITH_EXTENSION = new ResourceType(PackType.CLIENT_RESOURCES, "", "models");
+  protected static final ResourceType TEXTURE =
+      new ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
+  protected static final ResourceType MODEL =
+      new ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
+  protected static final ResourceType MODEL_WITH_EXTENSION =
+      new ResourceType(PackType.CLIENT_RESOURCES, "", "models");
 
   private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
   protected final PackOutput output;
   protected final String modid;
   protected final String folder;
   protected final Function<ResourceLocation, T> factory;
-  @VisibleForTesting
-  public final Map<ResourceLocation, T> generatedModels = new HashMap<>();
-  @VisibleForTesting
-  public final ExistingFileHelper existingFileHelper;
+  @VisibleForTesting public final Map<ResourceLocation, T> generatedModels = new HashMap<>();
+  @VisibleForTesting public final ExistingFileHelper existingFileHelper;
 
   protected abstract void registerModels();
 
-  public MyModelProvider(PackOutput output, String modid, String folder, Function<ResourceLocation, T> factory, ExistingFileHelper existingFileHelper) {
+  public MyModelProvider(
+      PackOutput output,
+      String modid,
+      String folder,
+      Function<ResourceLocation, T> factory,
+      ExistingFileHelper existingFileHelper) {
     Preconditions.checkNotNull(output);
     this.output = output;
     Preconditions.checkNotNull(modid);
@@ -54,13 +60,27 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
     this.existingFileHelper = existingFileHelper;
   }
 
-  public MyModelProvider(PackOutput output, String modid, String folder, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
-    this(output, modid, folder, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
+  public MyModelProvider(
+      PackOutput output,
+      String modid,
+      String folder,
+      BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId,
+      ExistingFileHelper existingFileHelper) {
+    this(
+        output,
+        modid,
+        folder,
+        loc -> builderFromModId.apply(loc, existingFileHelper),
+        existingFileHelper);
   }
 
   public T getBuilder(String path) {
     Preconditions.checkNotNull(path, "Path must not be null");
-    ResourceLocation outputLoc = extendWithFolder(path.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath(modid, path));
+    ResourceLocation outputLoc =
+        extendWithFolder(
+            path.contains(":")
+                ? ResourceLocation.parse(path)
+                : ResourceLocation.fromNamespaceAndPath(modid, path));
     this.existingFileHelper.trackGenerated(outputLoc, MODEL);
     return generatedModels.computeIfAbsent(outputLoc, factory);
   }
@@ -88,7 +108,14 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
     return getBuilder(name).parent(getExistingFile(parent));
   }
 
-  public T cube(String name, ResourceLocation down, ResourceLocation up, ResourceLocation north, ResourceLocation south, ResourceLocation east, ResourceLocation west) {
+  public T cube(
+      String name,
+      ResourceLocation down,
+      ResourceLocation up,
+      ResourceLocation north,
+      ResourceLocation south,
+      ResourceLocation east,
+      ResourceLocation west) {
     return withExistingParent(name, "cube")
         .texture("down", down)
         .texture("up", up)
@@ -110,9 +137,9 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
     return singleTexture(name, mcLoc(parent), textureKey, texture);
   }
 
-  public T singleTexture(String name, ResourceLocation parent, String textureKey, ResourceLocation texture) {
-    return withExistingParent(name, parent)
-        .texture(textureKey, texture);
+  public T singleTexture(
+      String name, ResourceLocation parent, String textureKey, ResourceLocation texture) {
+    return withExistingParent(name, parent).texture(textureKey, texture);
   }
 
   public T cubeAll(String name, ResourceLocation texture) {
@@ -125,14 +152,20 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
         .texture("top", top);
   }
 
-  private T sideBottomTop(String name, String parent, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+  private T sideBottomTop(
+      String name,
+      String parent,
+      ResourceLocation side,
+      ResourceLocation bottom,
+      ResourceLocation top) {
     return withExistingParent(name, parent)
         .texture("side", side)
         .texture("bottom", bottom)
         .texture("top", top);
   }
 
-  public T cubeBottomTop(String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+  public T cubeBottomTop(
+      String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
     return sideBottomTop(name, BLOCK_FOLDER + "/cube_bottom_top", side, bottom, top);
   }
 
@@ -154,7 +187,12 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
         .texture("front", front);
   }
 
-  public T orientableWithBottom(String name, ResourceLocation side, ResourceLocation front, ResourceLocation bottom, ResourceLocation top) {
+  public T orientableWithBottom(
+      String name,
+      ResourceLocation side,
+      ResourceLocation front,
+      ResourceLocation bottom,
+      ResourceLocation top) {
     return withExistingParent(name, BLOCK_FOLDER + "/orientable_with_bottom")
         .texture("side", side)
         .texture("front", front)
@@ -162,7 +200,8 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
         .texture("top", top);
   }
 
-  public T orientable(String name, ResourceLocation side, ResourceLocation front, ResourceLocation top) {
+  public T orientable(
+      String name, ResourceLocation side, ResourceLocation front, ResourceLocation top) {
     return withExistingParent(name, BLOCK_FOLDER + "/orientable")
         .texture("side", side)
         .texture("front", front)
@@ -177,15 +216,18 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
     return singleTexture(name, BLOCK_FOLDER + "/cross", "cross", cross);
   }
 
-  public T stairs(String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+  public T stairs(
+      String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
     return sideBottomTop(name, BLOCK_FOLDER + "/stairs", side, bottom, top);
   }
 
-  public T stairsOuter(String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+  public T stairsOuter(
+      String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
     return sideBottomTop(name, BLOCK_FOLDER + "/outer_stairs", side, bottom, top);
   }
 
-  public T stairsInner(String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+  public T stairsInner(
+      String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
     return sideBottomTop(name, BLOCK_FOLDER + "/inner_stairs", side, bottom, top);
   }
 
@@ -193,7 +235,8 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
     return sideBottomTop(name, BLOCK_FOLDER + "/slab", side, bottom, top);
   }
 
-  public T slabTop(String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+  public T slabTop(
+      String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
     return sideBottomTop(name, BLOCK_FOLDER + "/slab_top", side, bottom, top);
   }
 
@@ -371,15 +414,16 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
   }
 
   /**
-   * {@return a model builder that's not directly saved to disk. Meant for use in custom model loaders.}
+   * {@return a model builder that's not directly saved to disk. Meant for use in custom model
+   * loaders.}
    */
-  public T nested()
-  {
+  public T nested() {
     return factory.apply(ResourceLocation.parse("dummy:dummy"));
   }
 
   public ModelFile.ExistingModelFile getExistingFile(ResourceLocation path) {
-    ModelFile.ExistingModelFile ret = new ModelFile.ExistingModelFile(extendWithFolder(path), existingFileHelper);
+    ModelFile.ExistingModelFile ret =
+        new ModelFile.ExistingModelFile(extendWithFolder(path), existingFileHelper);
     ret.assertExistence();
     return ret;
   }
@@ -409,6 +453,10 @@ public abstract class MyModelProvider<T extends MyModelBuilder<T>> implements Da
 
   protected Path getPath(T model) {
     ResourceLocation loc = model.getLocation();
-    return this.output.getOutputFolder(PackOutput.Target.RESOURCE_PACK).resolve(loc.getNamespace()).resolve("models").resolve(loc.getPath() + ".json");
+    return this.output
+        .getOutputFolder(PackOutput.Target.RESOURCE_PACK)
+        .resolve(loc.getNamespace())
+        .resolve("models")
+        .resolve(loc.getPath() + ".json");
   }
 }
