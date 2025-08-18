@@ -22,9 +22,11 @@ public class Metalica {
   // Directly reference a slf4j logger
   public static final Logger LOGGER = LogUtils.getLogger();
 
-  public Metalica(FMLJavaModLoadingContext context) {
+  static {
     Metals.createMaterials();
+  }
 
+  public Metalica(FMLJavaModLoadingContext context) {
     IEventBus modEventBus = context.getModEventBus();
 
     ModCreativeTabs.register(modEventBus);
