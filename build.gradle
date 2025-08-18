@@ -224,11 +224,22 @@ tasks.withType(JavaCompile).configureEach {
 tasks.withType(Copy).configureEach { duplicatesStrategy 'exclude' }
 
 spotless {
+    def globalExcludes = [
+        '**/build/**',
+        '**/bin/**',
+        '**/.gradle/**',
+        '**/.idea/**',
+        '**/gradle/**',
+        '**/libs/**',
+        '**/run/**',
+        '**/run-data/**'
+    ]
+
     java {
         target fileTree('.') {
             include '**/*.java'
-            exclude '**/build/**', '**/build-*/**', '**/bin/**'
         }
+        targetExclude(globalExcludes)
         toggleOffOn()
         googleJavaFormat()
         removeUnusedImports()
@@ -236,6 +247,7 @@ spotless {
         endWithNewline()
     }
     groovyGradle {
+        targetExclude(globalExcludes)
         target fileTree('.') {
             include '**/*.gradle'
             exclude '**/build/**', '**/build-*/**', '**/bin/**'
@@ -246,20 +258,16 @@ spotless {
         endWithNewline()
     }
     json {
+        targetExclude(globalExcludes)
         target fileTree('.') {
             include '**/*.json'
-            exclude '**/build/**', '**/build-*/**', '**/bin/**'
-            exclude '**/simgui-ds.json', '**/simgui-window.json', '**/simgui.json', '**/networktables.json'
-            exclude '.vscode/*.json'
-            exclude '.wpilib/*.json'
-            exclude 'vendordeps/*.json'
         }
         gson().indentWithSpaces(2)
     }
     format 'xml', {
+        targetExclude(globalExcludes)
         target fileTree('.') {
             include '**/*.xml'
-            exclude '**/build/**', '**/build-*/**', '**/bin/**', '**/.idea/**', '**/.run/**'
         }
         eclipseWtp('xml')
         trimTrailingWhitespace()
@@ -267,9 +275,9 @@ spotless {
         endWithNewline()
     }
     format 'misc', {
+        targetExclude(globalExcludes)
         target fileTree('.') {
             include '**/*.md', '**/.gitignore'
-            exclude '**/build/**', '**/build-*/**', '**/bin/**'
         }
         trimTrailingWhitespace()
         indentWithSpaces(2)
