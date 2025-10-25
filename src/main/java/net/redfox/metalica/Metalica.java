@@ -22,10 +22,6 @@ public class Metalica {
   // Directly reference a slf4j logger
   public static final Logger LOGGER = LogUtils.getLogger();
 
-  static {
-    Metals.createMaterials();
-  }
-
   public Metalica(FMLJavaModLoadingContext context) {
     IEventBus modEventBus = context.getModEventBus();
 
@@ -36,6 +32,8 @@ public class Metalica {
     if (ModList.get().isLoaded("mantle")) {
       ModFluids.register(modEventBus);
     }
+
+    Metals.createMaterials();
 
     // Register ourselves for server and other game events we are interested in
     MinecraftForge.EVENT_BUS.register(this);
