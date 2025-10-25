@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:melting",
+        "ingredient": {
+          "tag": "forge:storage_blocks/bronze"
+        },
+        "result": {
+          "amount": 810,
+          "fluid": "metalica:molten_bronze"
+        },
+        "temperature": 800,
+        "time": 60
+      }
+    }
+  ]
+}

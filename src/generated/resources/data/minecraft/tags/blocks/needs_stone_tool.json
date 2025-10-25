@@ -3,6 +3,8 @@
     "metalica:aluminum_ore",
     "metalica:deepslate_aluminum_ore",
     "metalica:zinc_ore",
-    "metalica:deepslate_zinc_ore"
+    "metalica:deepslate_zinc_ore",
+    "metalica:tin_ore",
+    "metalica:deepslate_tin_ore"
   ]
 }

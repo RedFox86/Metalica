@@ -6,7 +6,9 @@
       "permutations": {
         "aluminum": "metalica:color/aluminum",
         "aluminum_brass": "metalica:color/aluminum_brass",
+        "bronze": "metalica:color/bronze",
         "lead": "metalica:color/lead",
+        "tin": "metalica:color/tin",
         "zinc": "metalica:color/zinc"
       },
       "textures": [

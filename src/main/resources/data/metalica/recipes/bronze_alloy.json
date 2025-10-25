@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:alloy",
+        "inputs": [
+          {
+            "amount": 90,
+            "tag": "forge:molten_copper"
+          },
+          {
+            "amount": 30,
+            "tag": "forge:molten_tin"
+          }
+        ],
+        "result": {
+          "amount": 120,
+          "tag": "forge:molten_bronze"
+        },
+        "temperature": 600
+      }
+    }
+  ]
+}

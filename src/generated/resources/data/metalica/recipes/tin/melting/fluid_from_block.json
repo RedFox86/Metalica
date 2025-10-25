@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:melting",
+        "ingredient": {
+          "tag": "forge:storage_blocks/tin"
+        },
+        "result": {
+          "amount": 810,
+          "fluid": "metalica:molten_tin"
+        },
+        "temperature": 800,
+        "time": 60
+      }
+    }
+  ]
+}

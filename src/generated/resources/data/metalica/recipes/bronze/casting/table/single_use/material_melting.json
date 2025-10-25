@@ -1,0 +1,22 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "tconstruct"
+        }
+      ],
+      "recipe": {
+        "type": "tconstruct:material_melting",
+        "input": "metalica:bronze",
+        "result": {
+          "amount": 90,
+          "fluid": "metalica:molten_bronze"
+        },
+        "temperature": 1000
+      }
+    }
+  ]
+}

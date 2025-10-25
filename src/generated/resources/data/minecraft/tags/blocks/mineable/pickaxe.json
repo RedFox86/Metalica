@@ -8,10 +8,15 @@
     "metalica:raw_lead_block",
     "metalica:lead_ore",
     "metalica:deepslate_lead_ore",
+    "metalica:bronze_block",
     "metalica:zinc_block",
     "metalica:raw_zinc_block",
     "metalica:zinc_ore",
     "metalica:deepslate_zinc_ore",
-    "metalica:aluminum_brass_block"
+    "metalica:aluminum_brass_block",
+    "metalica:tin_block",
+    "metalica:raw_tin_block",
+    "metalica:tin_ore",
+    "metalica:deepslate_tin_ore"
   ]
 }

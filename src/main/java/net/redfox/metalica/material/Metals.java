@@ -10,6 +10,8 @@ public class Metals {
   public static MetalMaterial lead;
   public static MetalMaterial zinc;
   public static MetalMaterial aluminum_brass;
+  public static MetalMaterial bronze;
+  public static MetalMaterial tin;
 
   /*
    * Remember to move the bottom initializer into the else statement
@@ -38,13 +40,26 @@ public class Metals {
               .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
               .tinkers(
                   new TinkersMaterialBuilder(Tiers.IRON, 1000)
-                      .head(550, 3f, 4.5f)
+                      .head(350, 3f, 4.5f)
                       .grip(2f, -0.7f, 3f)
-                      .limb(250, -1.5f, 0.8f, -0.5f)
+                      .limb(200, -1.5f, 0.8f, -0.5f)
                       .handle(-0.5f, 0.5f, 0.5f, -0.5f)
                       .binding()
                       .repairKit()
                       .modifier("tconstruct:heavy"))
+              .build();
+      bronze =
+          new MetalMaterial.Builder("bronze", "Bronze", 0xFFD1A246)
+              .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
+              .tinkers(
+                  new TinkersMaterialBuilder(Tiers.IRON, 1000)
+                      .head(400, 4f, 5f)
+                      .grip(2.5f, 0.2f, 4f)
+                      .limb(300, 0.5f, 0.7f, 0.5f)
+                      .handle(-0.5f, 0.5f, 0.5f, -0.5f)
+                      .binding()
+                      .repairKit()
+                      .modifier("tconstruct:reinforced"))
               .build();
     } else {
       aluminum =
@@ -57,6 +72,10 @@ public class Metals {
               .ore(7, 7, -32, 35, BlockTags.NEEDS_IRON_TOOL)
               .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
               .build();
+      bronze =
+          new MetalMaterial.Builder("bronze", "Bronze", 0xFFD1A246)
+              .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
+              .build();
     }
     zinc =
         new MetalMaterial.Builder("zinc", "Zinc", 0xFFfAF7BB)
@@ -65,6 +84,11 @@ public class Metals {
             .build();
     aluminum_brass =
         new MetalMaterial.Builder("aluminum_brass", "Aluminum Brass", 0xFFFFD966)
+            .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
+            .build();
+    tin =
+        new MetalMaterial.Builder("tin", "Tin", 0xFFBCBCBC)
+            .ore(4, 10, -32, 60, BlockTags.NEEDS_STONE_TOOL)
             .storageBlockMiningLevel(BlockTags.NEEDS_IRON_TOOL)
             .build();
   }
